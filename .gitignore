@@ -89,5 +89,5 @@ ENV/
 .ropeproject
 
 *.swp
-/VOC2012/
+/data/VOC2012/
 .idea/
