@@ -180,9 +180,9 @@ def f1(y_true, y_pred):
 def show_image(image_data, lables=""):
     arr = np.ascontiguousarray(image_data.transpose(1, 2, 0))
     img = Image.fromarray(arr, 'RGB')
-    font = ImageFont.truetype("/Library/Fonts/Arial.ttf", 10)
-    draw = ImageDraw.Draw(img)
-    draw.text((0, 0), lables, (255, 255, 0), font=font)
+    # font = ImageFont.truetype("/Library/Fonts/Arial.ttf", 10)
+    # draw = ImageDraw.Draw(img)
+    # draw.text((0, 0), lables, (255, 255, 0), font=font)
     img.show()
 
 
