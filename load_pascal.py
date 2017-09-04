@@ -1,16 +1,17 @@
 import cv2
 import numpy as np
 
-import pascal2012
+import pascal
 from keras import backend as K
+
 
 nb_train_samples = 3000 # 3000 training samples
 nb_valid_samples = 100 # 100 validation samples
 num_classes = 20
 
-def load_pascal2012_data(img_rows, img_cols):
+def load_pascal_data(version="VOC2007"):
     # Load cifar10 training and validation sets
-    (X_train, Y_train), (X_valid, Y_valid) = pascal2012.load_data()
+    (X_train, Y_train), (X_valid, Y_valid) = pascal.load_data(version)
 
     # For Theano
     # # Switch RGB to BGR order

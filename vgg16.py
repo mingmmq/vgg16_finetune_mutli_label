@@ -7,7 +7,7 @@ from keras.layers import Input, Dense, Convolution2D, MaxPooling2D, AveragePooli
 from sklearn.metrics import log_loss
 
 from load_cifar10 import load_cifar10_data
-from load_pascal2012 import load_pascal2012_data
+from load_pascal import load_pascal_data
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -198,7 +198,7 @@ if __name__ == '__main__':
 
     # Load Cifar10 data. Please implement your own load_data() module for your own dataset
     # X_train, Y_train, X_valid, Y_valid = load_cifar10_data(img_rows, img_cols)
-    X_train, Y_train, X_valid, Y_valid = load_pascal2012_data(img_rows, img_cols)
+    X_train, Y_train, X_valid, Y_valid = load_pascal_data("VOC2007")
 
     i = 0
     for img in X_train[:4]:

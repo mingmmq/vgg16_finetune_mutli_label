@@ -18,22 +18,27 @@ def show_image(image_data, lables=""):
     draw.text((0, 0), lables, (255, 255, 0), font=font)
     img.show()
 
-def load_data():
-    (x_train, y_train) = load_data_new("train")
-    (x_test, y_test)  = load_data_new("val")
+def load_data(data_path=""):
+    if data_path == "":
+        print("data_path required: VOC2012 or VOC 2007")
+        exit()
+    path = "/".join(["data",data_path])
+    (x_train, y_train) = load_data_by_type(path, "train")
+    (x_test, y_test)  = load_data_by_type(path, "val")
 
     return (x_train, y_train), (x_test, y_test)
 
-def load_data_new(type):
+def load_data_by_type(path, type):
     if type == "train":
-        data, files = pascal_dict.getImageAndLabels("VOC2012/ImageSets/Main/", '_train.txt')
+        data, files = pascal_dict.getImageAndLabels(path, '_train.txt')
     else:
-        data, files = pascal_dict.getImageAndLabels("VOC2012/ImageSets/Main/", '_val.txt')
+        data, files = pascal_dict.getImageAndLabels(path, '_val.txt')
 
     num_train_samples = 0
     for key in data:
-        if len(data[key]) > 1:
-            continue
+        # #next two lines are used for filter out those only with one label
+        # if len(data[key]) > 1:
+        #     continue
         num_train_samples += 1
     # num_train_samples = len(data.keys())
     # num_train_samples = 32
@@ -44,10 +49,11 @@ def load_data_new(type):
     labels = []
     image_names = []
 
-    # In what order will the key be iterated?
+    # In what order will the key be iterated? the order in linux is different from in macos
     for key in data:
-        if len(data[key]) > 1:
-            continue
+        # #for one label only image for testing
+        # if len(data[key]) > 1:
+        #     continue
 
         image_names.append(key)
         img = image.load_img(key)
