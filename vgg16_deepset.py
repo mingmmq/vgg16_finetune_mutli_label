@@ -7,7 +7,7 @@ from keras.layers import Input, Dense, Convolution2D, MaxPooling2D, AveragePooli
 from sklearn.metrics import log_loss
 
 from load_cifar10 import load_cifar10_data
-from load_pascal import load_pascal_data
+from load_pascal_deepset import  load_pascal_data
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -165,7 +165,7 @@ if __name__ == '__main__':
 
     img_rows, img_cols = 224, 224 # Resolution of inputs
     channel = 3
-    num_classes = 2880
+    num_classes = 20
     batch_size = 16 
     nb_epoch = 60
 
