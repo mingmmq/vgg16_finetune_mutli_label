@@ -102,8 +102,8 @@ def to_categoricals(path, y, num_classes):
     categorical = np.zeros((n, num_classes * 12 * 12)).astype('float64')
 
     for i in range(0, n):
+        print(y[i])
         for key in y[i]:
-            print(key, y[i])
             lists = [int(j + 12*12*cat_dict[key]) for j in y[i][key]]
             print(lists)
             categorical[i,  lists] = 1
