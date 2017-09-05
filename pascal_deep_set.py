@@ -104,7 +104,7 @@ def to_categoricals(path, y, num_classes):
     for i in range(0, n):
         for key in y[i]:
             print(key, y[i])
-            lists = [j + 12*12*cat_dict[key] for j in y[i][key]]
+            lists = [int(j + 12*12*cat_dict[key]) for j in y[i][key]]
             print(lists)
             categorical[i,  lists] = 1
 
