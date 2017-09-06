@@ -166,6 +166,7 @@ def _loss_tensor(y_true, y_pred):
     return K.mean(out, axis=-1)
 
 
+
 if __name__ == '__main__':
 
     # Example to fine-tune on 3000 samples from Cifar10
