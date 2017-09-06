@@ -168,9 +168,10 @@ def getImageAndAnnotations(path, last_name):
         im = draw_image(path, image)
         im.save("/".join(["images",image+" " + str(obj_pos)+".jpg"]))
 
-        if count == 10:
-            break
-        count += 1
+        # this part is for showing only the 10 items
+        # if count == 10:
+        #     break
+        # count += 1
 
 
     return file_obj_pos
