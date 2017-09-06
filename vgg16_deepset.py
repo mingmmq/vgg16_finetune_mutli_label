@@ -72,7 +72,7 @@ def f1(y_true, y_pred):
     recall = recall(y_true, y_pred)
     return 2*((precision*recall)/(precision+recall))
 
-def vgg16_model(img_rows, img_cols, channel=1, num_classes=None):
+def vgg16_model(img_rows, img_cols, channel=1, num_labels=None):
     """VGG 16 Model for Keras
 
     Model Schema is based on 
@@ -140,7 +140,7 @@ def vgg16_model(img_rows, img_cols, channel=1, num_classes=None):
     #     layer.trainable = False
     model.outputs = [model.layers[-1].output]
     model.layers[-1].outbound_nodes = []
-    model.add(Dense(num_classes, activation='sigmoid'))
+    model.add(Dense(num_labels, activation='sigmoid'))
 
     # Uncomment below to set the first 10 layers to non-trainable (weights will not be updated)
     #for layer in model.layers[:10]:
@@ -149,13 +149,16 @@ def vgg16_model(img_rows, img_cols, channel=1, num_classes=None):
     # Learning rate is changed to 0.001
     sgd = SGD(lr=1e-4, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(optimizer=sgd,
-                  loss='binary_crossentropy',
+                  loss=_loss_np,
                   metrics=['accuracy', precision, recall, f1])
 
     return model
 
 
-
+def _loss_np(y_true, y_pred):
+    y_pred = np.clip(y_pred, K.epsilon(), 1.0-K.epsilon())
+    out = -(y_true * np.log(y_pred) + (1.0 - y_true) * np.log(1.0 - y_pred))
+    return np.mean(out, axis=-1)
 
 
 
@@ -165,7 +168,7 @@ if __name__ == '__main__':
 
     img_rows, img_cols = 224, 224 # Resolution of inputs
     channel = 3
-    num_classes = 2880
+    num_labels = 2880
     batch_size = 16 
     nb_epoch = 60
 
@@ -175,7 +178,7 @@ if __name__ == '__main__':
 
 
     # Load our model
-    model = vgg16_model(img_rows, img_cols, channel, num_classes)
+    model = vgg16_model(img_rows, img_cols, channel, num_labels)
 
     # Start Fine-tuning
     history = model.fit(X_train, Y_train,

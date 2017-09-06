@@ -108,6 +108,7 @@ def get_objects(anno):
     return obj_pos_dict
 
 def draw_image(path, image_name):
+    from PIL import ImageFont, Image, ImageDraw
     anno_path =  "/".join([path, "Annotations", image_name+".xml"])
     anno = load_annotation(anno_path)
     size = anno.find('size')
@@ -124,6 +125,12 @@ def draw_image(path, image_name):
         draw.line((i*h_gap,0, i*h_gap,height), fill=128)
         draw.line((0,i*v_gap, width, i*v_gap), fill=128)
 
+    font = ImageFont.truetype("simsun.ttf", 15)
+    for i in range(12):
+        for j in range(12):
+            draw.text((i*h_gap + 2,j * v_gap +2), str(j*12 + i), font=font)
+
+
     objs = anno.findAll('object')
     for obj in objs:
 
@@ -134,10 +141,10 @@ def draw_image(path, image_name):
         ymax = int(bbox.findChildren('ymax')[0].contents[0])
         xcen = (xmin + xmax) / 2.0
         ycen = (ymin + ymax) / 2.0
-        draw.line((xcen,0, xcen,height), fill=255)
-        draw.line((0,ycen, width,ycen), fill=255)
+        draw.ellipse((xcen-4, ycen-4, xcen +4,ycen +4), fill = 'blue', outline ='blue')
 
-    im.show()
+    # im.show()
+    return im
 
 
 def getImageAndAnnotations(path, last_name):
@@ -147,6 +154,7 @@ def getImageAndAnnotations(path, last_name):
     cat_dict = getCategoryDict(main_path)
 
     file_obj_pos = {}
+    count = 0
     for image in image_list:
         if image in rejects2007 or image in rejects2007val:
             continue
@@ -155,9 +163,15 @@ def getImageAndAnnotations(path, last_name):
         anno = load_annotation(anno_filepath)
 
         #do detect if the
-        # draw_image(path, image)
         obj_pos = get_objects(anno)
         file_obj_pos[image] = obj_pos
+        im = draw_image(path, image)
+        im.save("/".join(["images",image+" " + str(obj_pos)+".jpg"]))
+
+        if count == 10:
+            break
+        count += 1
+
 
     return file_obj_pos
 

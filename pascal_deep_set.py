@@ -50,6 +50,7 @@ def load_data_by_type(path, type):
     image_names = []
 
     # In what order will the key be iterated? the order in linux is different from in macos
+    files = []
     for key in data:
         # #for one label only image for testing
         # if len(data[key]) > 1:
@@ -74,13 +75,14 @@ def load_data_by_type(path, type):
 
         # y_train[i,:] = data[key]
         labels.append(data[key])
+        files.append(key)
 
         if i + 1 == num_train_samples:
             break
         i += 1
 
 
-    y_train = to_categoricals(path, labels, 20)
+    y_train = to_categoricals(path, labels, 20, files)
 
 
     # arr = np.ascontiguousarray(x_train[0].transpose(1, 2, 0))
@@ -92,20 +94,22 @@ def load_data_by_type(path, type):
 
 
 
-def to_categoricals(path, y, num_classes):
+def to_categoricals(path, y, num_classes, files):
     # y = np.array(y, dtype='int')
     # if not num_classes:
     #     num_classes = np.max(y) + 1
     cat_dict = pascal_dict.getCategoryDict('/'.join([path, "ImageSets/Main"]))
 
+    print(cat_dict)
+
     n = len(y)
     categorical = np.zeros((n, num_classes * 12 * 12)).astype('float64')
 
     for i in range(0, n):
-        print(y[i])
+        print("\n", files[i], y[i])
         for key in y[i]:
             lists = [int(j + 12*12*cat_dict[key]) for j in y[i][key]]
-            print(lists)
+            print(key, lists)
             categorical[i,  lists] = 1
 
     return categorical
