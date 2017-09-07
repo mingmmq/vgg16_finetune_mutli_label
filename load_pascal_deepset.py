@@ -37,7 +37,7 @@ def load_pascal_data(version="VOC2007"):
     #   X_train = np.array([cv2.resize(img, (img_rows,img_cols)) for img in X_train[:nb_train_samples,:,:,:]])
     #   X_valid = np.array([cv2.resize(img, (img_rows,img_cols)) for img in X_valid[:nb_valid_samples,:,:,:]])
     #
-    # # Transform targets to keras compatible format
+    # # Transform targets to pytorch compatible format
     # Y_train = to_categoricals(Y_train[:nb_train_samples], num_classes)
     # Y_valid = to_categoricals(Y_valid[:nb_valid_samples], num_classes)
     return X_train, Y_train, X_valid, Y_valid

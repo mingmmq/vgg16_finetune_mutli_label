@@ -15,7 +15,7 @@ def conv2d_bn(x, nb_filter, nb_row, nb_col,
               border_mode='same', subsample=(1, 1), bias=False):
     """
     Utility function to apply conv + BN. 
-    (Slightly modified from https://github.com/fchollet/keras/blob/master/keras/applications/inception_v3.py)
+    (Slightly modified from https://github.com/fchollet/pytorch/blob/master/pytorch/applications/inception_v3.py)
     """
     if K.image_dim_ordering() == "th":
         channel_axis = 1
@@ -205,11 +205,11 @@ def inception_v4_model(img_rows, img_cols, color_type=1, num_classeses=None, dro
     Inception V4 Model for Keras
 
     Model Schema is based on
-    https://github.com/kentsommer/keras-inceptionV4
+    https://github.com/kentsommer/pytorch-inceptionV4
 
     ImageNet Pretrained Weights 
-    Theano: https://github.com/kentsommer/keras-inceptionV4/releases/download/2.0/inception-v4_weights_th_dim_ordering_th_kernels.h5
-    TensorFlow: https://github.com/kentsommer/keras-inceptionV4/releases/download/2.0/inception-v4_weights_tf_dim_ordering_tf_kernels.h5
+    Theano: https://github.com/kentsommer/pytorch-inceptionV4/releases/download/2.0/inception-v4_weights_th_dim_ordering_th_kernels.h5
+    TensorFlow: https://github.com/kentsommer/pytorch-inceptionV4/releases/download/2.0/inception-v4_weights_tf_dim_ordering_tf_kernels.h5
 
     Parameters:
       img_rows, img_cols - resolution of inputs
