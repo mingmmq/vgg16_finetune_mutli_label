@@ -163,6 +163,9 @@ def _loss_np(y_true, y_pred):
 def _loss_tensor(y_true, y_pred):
     y_pred = K.clip(y_pred, K.epsilon(), 1.0-K.epsilon())
     out = (y_true * K.log(y_pred))
+    print(out)
+    mean = K.mean(out, axis=-1)
+    print(mean)
     return K.mean(out, axis=-1)
 
 
