@@ -23,9 +23,9 @@ def getImageAndLabels(path, last_name):
             count = 0
             for img_path in lines:
 
-                if count == 640:
-                    break
-                count += 1
+                # if count == 640:
+                #     break
+                # count += 1
 
                 if img_path.__contains__(" -1"):
                     continue
