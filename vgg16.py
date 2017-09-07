@@ -149,7 +149,7 @@ def vgg16_model(img_rows, img_cols, channel=1, num_classes=None):
     # Learning rate is changed to 0.001
     sgd = SGD(lr=1e-4, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(optimizer=sgd,
-                  loss='binary_crossentropy',
+                  loss=_loss_tensor,
                   metrics=['accuracy', precision, recall, f1])
 
     return model
@@ -158,6 +158,10 @@ def vgg16_model(img_rows, img_cols, channel=1, num_classes=None):
 
 
 
+def _loss_tensor(y_true, y_pred):
+    y_pred = K.clip(y_pred, K.epsilon(), 1.0-K.epsilon())
+    out = -(y_true * K.log(y_pred)) - (1.0 - y_true) * K.log(1.0 - y_pred)
+    return K.mean(out, axis=-1)
 
 if __name__ == '__main__':
 
