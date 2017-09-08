@@ -171,7 +171,7 @@ def _loss_tensor_bak(y_true, y_pred):
 def _loss_tensor(y_true, y_pred):
     y_pred = K.clip(y_pred, _EPSILON, 1.0-_EPSILON)
 
-    np_y_pred = K.eval(y_pred)
+    # np_y_pred = K.eval(y_pred)
     # sum_of_each = np.round(np.sum(np_y_pred, axis=1))
     #
     #
