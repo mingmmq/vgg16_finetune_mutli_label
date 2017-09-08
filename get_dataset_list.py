@@ -23,9 +23,9 @@ def getImageAndLabels(path, last_name):
             count = 0
             for img_path in lines:
 
-                # if count == 640:
-                #     break
-                # count += 1
+                if count == 64:
+                    break
+                count += 1
 
                 if img_path.__contains__(" -1"):
                     continue
@@ -169,9 +169,9 @@ def getImageAndAnnotations(path, last_name):
         # im.save("/".join(["images",image+" " + str(obj_pos)+".jpg"]))
 
         # this part is for showing only the 10 items
-        # if count == 10:
-        #     break
-        # count += 1
+        if count == 64:
+            break
+        count += 1
 
 
     return file_obj_pos

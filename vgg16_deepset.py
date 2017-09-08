@@ -2,19 +2,20 @@
 import keras
 from keras.models import Sequential
 from keras.optimizers import SGD
-from keras.layers import Input, Dense, Convolution2D, MaxPooling2D, AveragePooling2D, ZeroPadding2D, Dropout, Flatten, merge, Reshape, Activation
+from keras.layers import Dense, Convolution2D, MaxPooling2D, ZeroPadding2D, Dropout, Flatten, merge, Reshape, Activation
 
 from sklearn.metrics import log_loss
 
 from load_cifar10 import load_cifar10_data
 from load_pascal_deepset import  load_pascal_data
 import matplotlib
+
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 from keras import backend as K
 K.set_image_dim_ordering('th')
-import sklearn.metrics as skm
+_EPSILON = K.epsilon()
 
 def precision(y_true, y_pred):
     """Precision metric.		
@@ -160,11 +161,38 @@ def _loss_np(y_true, y_pred):
     out = -(y_true * np.log(y_pred) - (1.0 - y_true) * np.log(1.0 - y_pred))
     return np.mean(out, axis=-1)
 
-def _loss_tensor(y_true, y_pred):
+def _loss_tensor_bak(y_true, y_pred):
     y_pred = K.clip(y_pred, K.epsilon(), 1.0-K.epsilon())
-    out = -(y_true * K.log(y_pred))
+    out = -(y_true * K.log(y_pred)) - (1.0 - y_true)*K.log(1.0-y_pred)
     return K.mean(out, axis=-1)
 
+def _loss_tensor(y_true, y_pred):
+    y_pred = K.clip(y_pred, _EPSILON, 1.0-_EPSILON)
+
+    np_y_pred = K.eval(y_pred)
+    sum_of_each = np.round(np.sum(np_y_pred, axis=1))
+
+
+    np_y_true = K.eval(y_true)
+    np_y_ones = np.ones(np.shape(np_y_true))
+
+    for i in range(np.shape(sum_of_each)[0]):
+        index = np.random.choice(np.shape(np_y_true)[1], 3*int(sum_of_each[i]))
+        np_y_ones[i][np.array(index)] = 0
+        np_y_ones[np_y_true>0.5] = 1
+
+    new_y_true = K.variable(np_y_ones)
+
+
+    out = -(y_true * K.log(y_pred) + (1.0 - new_y_true) * K.log(1.0 - y_pred))
+    return K.mean(out, axis=-1)
+
+
+class My_Callback(keras.callbacks.Callback):
+    def on_epoch_end(self, epoch, logs={}):
+        predict = np.asarray(self.model.predict(self.validation_data[0]))
+        targ = self.validation_data[1]
+        return
 
 
 if __name__ == '__main__':
@@ -185,13 +213,16 @@ if __name__ == '__main__':
     # Load our model
     model = vgg16_model(img_rows, img_cols, channel, num_labels)
 
+    my_callback = My_Callback()
+
     # Start Fine-tuning
     history = model.fit(X_train, Y_train,
-              batch_size=batch_size,
-              epochs=nb_epoch,
-              shuffle=True,
-              verbose=1,
-              validation_data=(X_valid, Y_valid),
+                        batch_size=batch_size,
+                        epochs=nb_epoch,
+                        shuffle=True,
+                        verbose=1,
+                        validation_data=(X_valid, Y_valid),
+                        callbacks=[my_callback]
               )
 
     model.save_weights('trained_model.h5')
