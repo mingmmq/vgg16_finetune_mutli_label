@@ -184,7 +184,7 @@ def _loss_tensor(y_true, y_pred):
     new_y_true = K.variable(np_y_ones)
 
 
-    out = -(y_true * K.log(y_pred) + (1.0 - new_y_true) * K.log(1.0 - y_pred))
+    out = -(y_true * K.log(y_pred) - (1.0 - new_y_true) * K.log(1.0 - y_pred))
     return K.mean(out, axis=-1)
 
 
