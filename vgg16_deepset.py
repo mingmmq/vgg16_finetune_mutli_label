@@ -171,17 +171,17 @@ def _loss_tensor_bak(y_true, y_pred):
 def _loss_tensor(y_true, y_pred):
     y_pred = K.clip(y_pred, _EPSILON, 1.0-_EPSILON)
 
-    np_y_pred = K.eval(y_pred)
-    sum_of_each = np.round(np.sum(np_y_pred, axis=1))
-
-
-    np_y_true = K.eval(y_true)
-    np_y_ones = np.ones(np.shape(np_y_true))
-
-    for i in range(np.shape(sum_of_each)[0]):
-        index = np.random.choice(np.shape(np_y_true)[1], 3*int(sum_of_each[i]))
-        np_y_ones[i][np.array(index)] = 0
-        np_y_ones[np_y_true>0.5] = 1
+    # np_y_pred = K.eval(y_pred)
+    # sum_of_each = np.round(np.sum(np_y_pred, axis=1))
+    #
+    #
+    # np_y_true = K.eval(y_true)
+    # np_y_ones = np.ones(np.shape(np_y_true))
+    #
+    # for i in range(np.shape(sum_of_each)[0]):
+    #     index = np.random.choice(np.shape(np_y_true)[1], 3*int(sum_of_each[i]))
+    #     np_y_ones[i][np.array(index)] = 0
+    #     np_y_ones[np_y_true>0.5] = 1
 
     # new_y_true = K.constant(np_y_ones)
 
