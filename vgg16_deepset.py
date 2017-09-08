@@ -2,7 +2,8 @@
 import keras
 from keras.models import Sequential
 from keras.optimizers import SGD
-from keras.layers import Dense, Convolution2D, MaxPooling2D, ZeroPadding2D, Dropout, Flatten, merge, Reshape, Activation
+from keras.layers import Input, Dense, Convolution2D, MaxPooling2D, AveragePooling2D, ZeroPadding2D, Dropout, Flatten, merge, Reshape, Activation
+from keras import objectives
 
 from sklearn.metrics import log_loss
 
@@ -16,6 +17,7 @@ import numpy as np
 from keras import backend as K
 K.set_image_dim_ordering('th')
 _EPSILON = K.epsilon()
+import sklearn.metrics as skm
 
 def precision(y_true, y_pred):
     """Precision metric.		
@@ -184,7 +186,7 @@ def _loss_tensor(y_true, y_pred):
     new_y_true = K.variable(np_y_ones)
 
 
-    out = -(y_true * K.log(y_pred) - (1.0 - new_y_true) * K.log(1.0 - y_pred))
+    out = -(y_true * K.log(y_pred) + (1.0 - new_y_true) * K.log(1.0 - y_pred))
     return K.mean(out, axis=-1)
 
 
