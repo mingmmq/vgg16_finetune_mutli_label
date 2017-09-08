@@ -163,7 +163,7 @@ def _loss_np(y_true, y_pred):
     out = -(y_true * np.log(y_pred) - (1.0 - y_true) * np.log(1.0 - y_pred))
     return np.mean(out, axis=-1)
 
-def _loss_tensor(y_true, y_pred):
+def _loss_tensor_bak(y_true, y_pred):
     y_pred = K.clip(y_pred, K.epsilon(), 1.0-K.epsilon())
     out = -(y_true * K.log(y_pred)) - (1.0 - y_true)*K.log(1.0-y_pred)
     return K.mean(out, axis=-1)
@@ -183,10 +183,10 @@ def _loss_tensor(y_true, y_pred):
         np_y_ones[i][np.array(index)] = 0
         np_y_ones[np_y_true>0.5] = 1
 
-    new_y_true = K.constant(np_y_ones)
+    # new_y_true = K.constant(np_y_ones)
 
 
-    out = -(y_true * K.log(y_pred) + (1.0 - new_y_true) * K.log(1.0 - y_pred))
+    out = -(y_true * K.log(y_pred) + (1.0 - y_true) * K.log(1.0 - y_pred))
     return K.mean(out, axis=-1)
 
 
