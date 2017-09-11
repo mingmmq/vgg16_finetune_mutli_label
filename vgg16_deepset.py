@@ -190,9 +190,14 @@ def _loss_tensor(y_true, y_pred):
 
     # sum_of_each = np.round(np.sum(y_true, axis=1))
 
-
     # K.ones(np.shape(y_true))
-    K.ones(shape=(1,2,3))
+    sum_of_each = K.round(K.sum(y_true, axis=1))
+    keep_of_each = sum_of_each * 3;
+    max = K.max(keep_of_each)
+    shape = K.shape(y_true)
+    random_tensor = K.random_binomial(shape=shape, p= (shape[1]-max)/(shape[1]))
+    y_true = K.clip(y_true + random_tensor, K.epsilon(), 1.0-K.epsilon())
+
     out = -(y_true * K.log(y_pred) + (1.0 - y_true) * K.log(1.0 - y_pred))
     return K.mean(out, axis=-1)
 

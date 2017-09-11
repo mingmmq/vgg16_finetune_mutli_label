@@ -22,7 +22,6 @@ def getImageAndLabels(path, last_name):
             lines = f.read().splitlines()
             count = 0
             for img_path in lines:
-
                 # if count == 64:
                 #     break
                 # count += 1
