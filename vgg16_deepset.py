@@ -192,7 +192,7 @@ def _loss_tensor(y_true, y_pred):
 
 
     # K.ones(np.shape(y_true))
-    out = -(y_true * K.log(y_pred) + (1.0 - y_true) * K.log(1.0 - y_pred)) * 0.1
+    out = -(y_true * K.log(y_pred) + (1.0 - y_true) * K.log(1.0 - y_pred))
     return K.mean(out, axis=-1)
 
 
