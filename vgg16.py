@@ -159,7 +159,7 @@ def vgg16_model(img_rows, img_cols, channel=1, num_classes=None):
 
 def _loss_tensor(y_true, y_pred):
     y_pred = K.clip(y_pred, K.epsilon(), 1.0-K.epsilon())
-    out = -(y_true * K.log(y_pred)) + (1.0 -y_true)*K.log(1.0-y_pred)
+    out = (y_true * K.log(y_pred)) - (1.0 -y_true)*K.log(1.0-y_pred)
     return K.mean(out, axis=-1)
 
 if __name__ == '__main__':
