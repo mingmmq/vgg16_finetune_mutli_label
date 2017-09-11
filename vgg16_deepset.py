@@ -172,7 +172,7 @@ def _loss_tensor(y_true, y_pred):
     print(K.is_keras_tensor(y_true))
     print(K.is_keras_tensor(y_pred))
 
-    y_pred = K.clip(y_pred, _EPSILON, 1.0-_EPSILON)
+    y_pred = K.clip(y_pred, K.epsilon(), 1.0-K.epsilon())
 
     # np_y_pred = K.eval(y_pred)
     # sum_of_each = np.round(np.sum(np_y_pred, axis=1))
@@ -192,6 +192,7 @@ def _loss_tensor(y_true, y_pred):
 
 
     # K.ones(np.shape(y_true))
+    K.ones(shape=(1,2,3))
     out = -(y_true * K.log(y_pred) + (1.0 - y_true) * K.log(1.0 - y_pred))
     return K.mean(out, axis=-1)
 
