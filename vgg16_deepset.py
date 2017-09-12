@@ -176,28 +176,22 @@ def _loss_tensor_bak(y_true, y_pred):
 def _loss_tensor(y_true, y_pred):
     y_pred = K.clip(y_pred, K.epsilon(), 1.0-K.epsilon())
 
-    # np_y_pred = K.eval(y_pred)
-    # sum_of_each = np.round(np.sum(np_y_pred, axis=1))
-    #
-    #
-    # np_y_true = K.eval(y_true)
-    # np_y_ones = np.ones(np.shape(np_y_true))
-    #
-    # for i in range(np.shape(sum_of_each)[0]):
-    #     index = np.random.choice(np.shape(np_y_true)[1], 3*int(sum_of_each[i]))
-    #     np_y_ones[i][np.array(index)] = 0
-    #     np_y_ones[np_y_true>0.5] = 1
-
-    # new_y_true = K.constant(np_y_ones)
-
-    # sum_of_each = np.round(np.sum(y_true, axis=1))
-
-    # K.ones(np.shape(y_true))
+    #find the 1 labels sum in each row
     sum_of_each = K.round(K.sum(y_true, axis=1))
+
+    #get 3 times of the to keep the data
     keep_of_each = sum_of_each * 3;
+
+    #get the max of these number
     max = K.max(keep_of_each)
+
+    #get the shape of y_true
     shape = K.shape(y_true)
+
+    #generate the random tensor based on the shape, and make tie binomial
     random_tensor = K.random_binomial(shape=shape, p= (shape[1]-max)/(shape[1]))
+
+
     n_true = K.clip(y_true + random_tensor, K.epsilon(), 1.0-K.epsilon())
 
     out = -(y_true * K.log(y_pred) + (1.0 - n_true) * K.log(1.0 - y_pred))
