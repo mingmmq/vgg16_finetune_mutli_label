@@ -209,14 +209,6 @@ class My_Callback(keras.callbacks.Callback):
         self.validation_data = validation_data
 
 
-    def on_batch_end(self, batch, logs=None):
-        predict = np.asarray(self.model.predict(self.validation_data[0]))
-        targ = self.validation_data[1]
-        return
-
-    def on_batch_begin(self, batch, logs=None):
-        return
-
     def on_epoch_end(self, batch, logs=None):
         # pdb.set_trace()
         x_val = self.validation_data[0]
@@ -243,19 +235,10 @@ class My_Callback(keras.callbacks.Callback):
         loss_now = _loss_tensor(y_true, y_pred)
 
         #print related infromation
-        print("positive rate: %f, precision: %f, recall: %f, accuracy: %f"%(K.eval(pred_positive_rate), K.eval(precision), K.eval(recall), K.eval(accuracy)))
         print("loss original: %f, loss_now: %f"%(K.eval(K.mean(loss_original)), K.eval(K.mean(loss_now))))
+        print("positive rate: %f, precision: %f, recall: %f, accuracy: %f"%(K.eval(pred_positive_rate), K.eval(precision), K.eval(recall), K.eval(accuracy)))
         return
 
-
-    def on_train_begin(self, logs=None):
-        return
-
-    def on_train_end(self, logs=None):
-        return
-
-    def on_epoch_begin(self, epoch, logs=None):
-        return
 
 if __name__ == '__main__':
 
