@@ -18,6 +18,11 @@ from keras import backend as K
 K.set_image_dim_ordering('th')
 _EPSILON = K.epsilon()
 import sklearn.metrics as skm
+import pdb
+
+def cus_acc(y_true, y_pred):
+    true_positive = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+
 
 def precision(y_true, y_pred):
     """Precision metric.		
@@ -160,12 +165,12 @@ def vgg16_model(img_rows, img_cols, channel=1, num_labels=None):
 
 def _loss_np(y_true, y_pred):
     y_pred = np.clip(y_pred, K.epsilon(), 1.0-K.epsilon())
-    out = -(y_true * np.log(y_pred) - (1.0 - y_true) * np.log(1.0 - y_pred))
+    out = -(y_true * np.log(y_pred) + (1.0 - y_true) * np.log(1.0 - y_pred))
     return np.mean(out, axis=-1)
 
 def _loss_tensor_bak(y_true, y_pred):
     y_pred = K.clip(y_pred, K.epsilon(), 1.0-K.epsilon())
-    out = -(y_true * K.log(y_pred)) - (1.0 - y_true)*K.log(1.0-y_pred)
+    out = -(y_true * K.log(y_pred) + (1.0 - y_true)*K.log(1.0-y_pred))
     return K.mean(out, axis=-1)
 
 def _loss_tensor(y_true, y_pred):
@@ -203,11 +208,57 @@ def _loss_tensor(y_true, y_pred):
 
 
 class My_Callback(keras.callbacks.Callback):
+    def __init__(self, validation_data):
+        self.validation_data = validation_data
+
+
     def on_epoch_end(self, epoch, logs={}):
         predict = np.asarray(self.model.predict(self.validation_data[0]))
         targ = self.validation_data[1]
         return
 
+    def on_batch_begin(self, batch, logs=None):
+        return
+
+    def on_batch_end(self, batch, logs=None):
+        # pdb.set_trace()
+        x_val = self.validation_data[0]
+        y_val = self.validation_data[1]
+        y_pred = self.model.predict(x_val)
+
+        #turn them into tensors
+        y_true = K.variable(y_val)
+        y_pred = K.variable(y_pred)
+
+        #calculate the rate
+        true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+        possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
+        predicted_positives = K.sum(K.round(K.clip(y_pred, 0, 1)))
+        recall = true_positives / possible_positives
+        precision = true_positives / predicted_positives
+
+        all_Ones = K.sum(K.random_binomial(shape=K.shape(y_true), p=1.0)) #this is to replace K.ones
+        pred_positive_rate = predicted_positives / all_Ones
+        true_negative = K.sum(all_Ones - predicted_positives - possible_positives + true_positives)
+        accuracy = (true_positives + true_negative) /  all_Ones
+
+        loss_original = _loss_tensor_bak(y_true, y_pred)
+        loss_now = _loss_tensor(y_true, y_pred)
+
+        #print related infromation
+        print("positive rate: %f, precision: %f, recall: %f, accuracy: %f"%(K.eval(pred_positive_rate), K.eval(precision), K.eval(recall), K.eval(accuracy)))
+        print("loss original: %f, loss_now: %f"%(K.eval(K.mean(loss_original)), K.eval(K.mean(loss_now))))
+        return
+
+
+    def on_train_begin(self, logs=None):
+        return
+
+    def on_train_end(self, logs=None):
+        return
+
+    def on_epoch_begin(self, epoch, logs=None):
+        return
 
 if __name__ == '__main__':
 
@@ -227,7 +278,7 @@ if __name__ == '__main__':
     # Load our model
     model = vgg16_model(img_rows, img_cols, channel, num_labels)
 
-    my_callback = My_Callback()
+    my_callback = My_Callback(validation_data=(X_valid, Y_valid))
 
     # Start Fine-tuning
     history = model.fit(X_train, Y_train,
