@@ -209,7 +209,7 @@ class My_Callback(keras.callbacks.Callback):
         self.validation_data = validation_data
 
 
-    def on_epoch_end(self, epoch, logs={}):
+    def on_batch_end(self, batch, logs=None):
         predict = np.asarray(self.model.predict(self.validation_data[0]))
         targ = self.validation_data[1]
         return
@@ -217,7 +217,7 @@ class My_Callback(keras.callbacks.Callback):
     def on_batch_begin(self, batch, logs=None):
         return
 
-    def on_batch_end(self, batch, logs=None):
+    def on_epoch_end(self, batch, logs=None):
         # pdb.set_trace()
         x_val = self.validation_data[0]
         y_val = self.validation_data[1]
