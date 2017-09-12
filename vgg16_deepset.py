@@ -174,9 +174,6 @@ def _loss_tensor_bak(y_true, y_pred):
     return K.mean(out, axis=-1)
 
 def _loss_tensor(y_true, y_pred):
-    print(K.is_keras_tensor(y_true))
-    print(K.is_keras_tensor(y_pred))
-
     y_pred = K.clip(y_pred, K.epsilon(), 1.0-K.epsilon())
 
     # np_y_pred = K.eval(y_pred)
