@@ -1,3 +1,6 @@
+#Report:
+![](losses.png?raw=true)
+
 # Fine-tune Convolutional Neural Network in Keras with ImageNet Pretrained Models
 
 The reason to create this repo is that there are not many online resources that provide sample codes for performing fine-tuning, and that there is not a centralized place where we can easily download ImageNet pretrained models for common ConvNet architectures such as VGG, Inception, ResNet, and DenseNet. This repo serves to fill this gap by providing working examples of fine-tuning on Cifar10 dataset with ImageNet pretrained models on popular ConvNet implementations.
