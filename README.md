@@ -1,5 +1,8 @@
 # Report:
-![](losses.png?raw=true)
+
+![Loss diagram](losses.png?raw=true "Loss Diagram")
+![Training precision recall](train_precision_recall.png?raw=true "Training Precision Recall")
+![Validation Precision Recall](val_precision_recall.png?raw=true "Validation Precision Recall")
 
 # Fine-tune Convolutional Neural Network in Keras with ImageNet Pretrained Models
 
