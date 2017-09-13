@@ -187,7 +187,6 @@ def _loss_tensor(y_true, y_pred):
 
     #get the shape of y_true
     shape = K.shape(y_true)
-
     #generate the random tensor based on the shape, and make tie binomial
     random_tensor = K.random_binomial(shape=shape, p= (shape[1]-max)/(shape[1]))
 
