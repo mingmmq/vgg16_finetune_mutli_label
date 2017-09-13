@@ -18,6 +18,7 @@ remote_files = [
     "/home/ec2-user/vgg16_finetune_mutli_label/losses.png",
     "/home/ec2-user/vgg16_finetune_mutli_label/train_precision_recall.png",
     "/home/ec2-user/vgg16_finetune_mutli_label/val_precision_recall.png",
+    "/home/ec2-user/vgg16_finetune_mutli_label/nohup.out",
 ]
 
 for remote_file in remote_files:

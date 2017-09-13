@@ -197,7 +197,7 @@ class My_Callback(keras.callbacks.Callback):
         loss_now = _loss_tensor(y_true, y_pred)
 
         #print related infromation
-        print("positive rate: %f, precision: %f, recall: %f, accuracy: %f, loss original: %f, loss_now: %f\n"%(K.eval(pred_positive_rate), K.eval(precision), K.eval(recall), K.eval(accuracy), K.eval(K.mean(loss_original)), K.eval(K.mean(loss_now))))
+        print("\npositive rate: %f, precision: %f, recall: %f, accuracy: %f, loss original: %f, loss_now: %f\n"%(K.eval(pred_positive_rate), K.eval(precision), K.eval(recall), K.eval(accuracy), K.eval(K.mean(loss_original)), K.eval(K.mean(loss_now))))
         return
 
 
