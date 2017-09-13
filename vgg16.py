@@ -228,7 +228,7 @@ if __name__ == '__main__':
               shuffle=True,
               verbose=1,
               validation_data=(X_valid, Y_valid),
-                callbacks=callback
+                callbacks=[callback],
               )
 
     model.save_weights('trained_model.h5')
