@@ -5,20 +5,21 @@ from keras import backend as K
 _EPSILON = K.epsilon()
 
 def _loss_tensor(y_true, y_pred):
-    y_pred = K.clip(y_pred, _EPSILON, 1.0-_EPSILON)
 
+    y_pred = K.clip(y_pred, _EPSILON, 1.0-_EPSILON)
     sum_of_each = K.round(K.sum(y_true, axis=1))
     keep_of_each = sum_of_each * 3;
     max = K.max(keep_of_each)
     shape = K.shape(y_true)
-
     random_tensor = K.random_binomial(shape=shape, p= (shape[1]-2)/(shape[1]))
     n_true =K.clip(y_true + random_tensor,K.epsilon(),1.0-K.epsilon())
 
     print(K.eval(K.sum(random_tensor)))
 
-
     out = -(y_true * K.log(y_pred) + (1.0 - n_true) * K.log(1.0 - y_pred))
+
+    out1 = K.mean(out, axis=-1)
+    out2 = K.mean(out, axis=1)
     return K.mean(out, axis=-1)
 
 def _loss_np(y_true, y_pred):
@@ -29,7 +30,7 @@ def _loss_np(y_true, y_pred):
 
 def check_loss(_shape):
     if _shape == '2d':
-        shape = (1, 100)
+        shape = (2, 3)
     elif _shape == '3d':
         shape = (5, 6, 7)
     elif _shape == '4d':
