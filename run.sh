@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-nohup THEANO_FLAGS='mode=FAST_RUN,device=gpu3,floatX=float32' python vgg16_deepset.py &
+nohup python vgg16_deepset.py &
 
 echo "This will wait until the script are done"
 date
