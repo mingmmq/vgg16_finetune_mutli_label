@@ -81,6 +81,9 @@ def f1(y_true, y_pred):
     recall = recall(y_true, y_pred)
     return 2*((precision*recall)/(precision+recall))
 
+def acc(y_true, y_pred):
+    return K.mean(K.equal(y_true, K.round(y_pred)), axis=-1)
+
 def vgg16_model(img_rows, img_cols, channel=1, num_labels=None):
     """VGG 16 Model for Keras
 
@@ -159,7 +162,7 @@ def vgg16_model(img_rows, img_cols, channel=1, num_labels=None):
     sgd = SGD(lr=1e-4, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(optimizer=sgd,
                   loss=_loss_tensor,
-                  metrics=['accuracy', precision, recall, f1])
+                  metrics=[acc, precision, recall, f1])
 
     return model
 
