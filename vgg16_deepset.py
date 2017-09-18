@@ -299,7 +299,7 @@ if __name__ == '__main__':
     channel = 3
     num_labels = 2880
     batch_size = 16 
-    nb_epoch = 60
+    nb_epoch = 120
 
     # Load Cifar10 data. Please implement your own load_data() module for your own dataset
     # X_train, Y_train, X_valid, Y_valid = load_cifar10_data(img_rows, img_cols)
