@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device=gpu3,floatX=float32"
 import keras
 from keras.models import Sequential
 from keras.optimizers import SGD
@@ -21,8 +23,6 @@ _EPSILON = K.epsilon()
 import sklearn.metrics as skm
 import pdb
 
-import os
-os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device=gpu3,floatX=float32"
 
 def cus_acc(y_true, y_pred):
     true_positive = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
