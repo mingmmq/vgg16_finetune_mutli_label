@@ -14,7 +14,7 @@ def getImageAndLabels(path, last_name):
     i = 0
     dictionary = {}
     for file in files:
-        print(str(i) +": " + file + "\n")
+        # print(str(i) +": " + file + "\n")
 
         with open(os.path.join(label_path,file)) as f:
             # lines = f.read()
@@ -44,7 +44,7 @@ def getCategoryDict(main_path):
     all_files = os.listdir(main_path)
     image_sets = sorted(list(set([filename.replace('.txt', '').strip().split('_')[0] for filename in all_files if
                                   filename.__contains__("_train.txt")])))
-    print(image_sets)
+    # print(image_sets)
     d = {}
     i = 0
     for cate in image_sets:
