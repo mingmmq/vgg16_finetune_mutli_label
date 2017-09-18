@@ -7,7 +7,7 @@ key = paramiko.RSAKey.from_private_key_file("/Users/qianminming/GoogleDrive/PhD/
 client = paramiko.SSHClient()
 client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 print("connecting")
-client.connect( hostname = "ec2-13-55-93-184.ap-southeast-2.compute.amazonaws.com", username = "ec2-user", pkey = key )
+client.connect( hostname = "ec2-13-210-94-0.ap-southeast-2.compute.amazonaws.com", username = "ec2-user", pkey = key )
 print("connected")
 sftp = client.open_sftp()
 
