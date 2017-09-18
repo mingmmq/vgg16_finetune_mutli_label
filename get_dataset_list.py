@@ -173,7 +173,6 @@ def getImageAndAnnotations(path, last_name):
         count += 1
 
 
-
     return file_obj_pos
 
 
