@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-nohup python vgg16_deepset.py &
+nohup THEANO_FLAGS='mode=FAST_RUN,device=gpu3,floatX=float32' python vgg16_deepset.py &
 
 echo "This will wait until the script are done"
 date
@@ -9,7 +9,6 @@ echo "Done"
 
 time_stamp=$(date +%Y_%m_%d_%H_%M_%S)
 mkdir $time_stamp
-
 
 #move the files to the folder as a record, with the time
 #todo: should extract some configuration from the script and name the folder with the difference configuration
