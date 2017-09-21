@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device=gpu3,floatX=float32"
+os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device=gpu0,floatX=float32"
 import keras
 from keras.models import Sequential
 from keras.optimizers import SGD
