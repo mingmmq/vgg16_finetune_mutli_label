@@ -81,8 +81,8 @@ def load_data_by_type(path, type):
             break
         i += 1
 
-
-    y_train = to_categoricals(path, labels, 20, files)
+    grid_rows = 7
+    y_train = to_categoricals(path, labels, 20, grid_rows)
 
 
     # arr = np.ascontiguousarray(x_train[0].transpose(1, 2, 0))
@@ -94,7 +94,7 @@ def load_data_by_type(path, type):
 
 
 
-def to_categoricals(path, y, num_classes, files):
+def to_categoricals(path, y, num_classes, grid_rows):
     # y = np.array(y, dtype='int')
     # if not num_classes:
     #     num_classes = np.max(y) + 1
@@ -103,12 +103,12 @@ def to_categoricals(path, y, num_classes, files):
     print(cat_dict)
 
     n = len(y)
-    categorical = np.zeros((n, num_classes * 12 * 12)).astype('float64')
+    categorical = np.zeros((n, num_classes * grid_rows * grid_rows)).astype('float64')
 
     for i in range(0, n):
         # print("\n", files[i], y[i])
         for key in y[i]:
-            lists = [int(j + 12*12*cat_dict[key]) for j in y[i][key]]
+            lists = [int(j + grid_rows * grid_rows * cat_dict[key]) for j in y[i][key]]
             # print(key, lists)
             categorical[i,  lists] = 1
 
