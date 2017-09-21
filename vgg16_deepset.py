@@ -257,7 +257,7 @@ if __name__ == '__main__':
 
     img_rows, img_cols = 224, 224 # Resolution of inputs
     channel = 3
-    num_labels = 2880
+    num_labels = 980
     batch_size = 16 
     nb_epoch = 30
 
