@@ -162,7 +162,7 @@ def vgg16_model(img_rows, img_cols, channel=1, num_labels=None):
     #    layer.trainable = False
 
     # Learning rate is changed to 0.001
-    sgd = SGD(lr=1e-4, decay=1e-6, momentum=0.9, nesterov=True)
+    sgd = SGD(lr=1e-3, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(optimizer=sgd,
                   loss=_loss_tensor,
                   metrics=[acc, precision, recall, f1])
@@ -196,7 +196,7 @@ def _loss_tensor(y_true, y_pred):
     random_tensor = K.random_binomial(shape=shape, p= (shape[1]-max)/(shape[1]))
     n_true = K.clip(y_true + random_tensor, K.epsilon(), 1.0-K.epsilon())
 
-    out = -(y_true * K.log(y_pred)*1000 + (1.0 - y_true) * K.log(1.0 - y_pred))
+    out = -(y_true * K.log(y_pred)*300 + (1.0 - y_true) * K.log(1.0 - y_pred))
     return K.mean(out, axis=-1)
 
 
@@ -259,7 +259,7 @@ if __name__ == '__main__':
     channel = 3
     num_labels = 2880
     batch_size = 16 
-    nb_epoch = 120
+    nb_epoch = 30
 
     # Load Cifar10 data. Please implement your own load_data() module for your own dataset
     # X_train, Y_train, X_valid, Y_valid = load_cifar10_data(img_rows, img_cols)
