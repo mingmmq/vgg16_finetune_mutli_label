@@ -29,10 +29,11 @@ def load_data(data_path=""):
     return (x_train, y_train), (x_test, y_test)
 
 def load_data_by_type(path, type):
+    grid_rows = 7
     if type == "train":
-        data = pascal_dict.getImageAndAnnotations(path, '_train.txt')
+        data = pascal_dict.getImageAndAnnotations(path, '_train.txt', grid_rows)
     else:
-        data = pascal_dict.getImageAndAnnotations(path, '_val.txt')
+        data = pascal_dict.getImageAndAnnotations(path, '_val.txt', grid_rows)
 
     num_train_samples = 0
     for key in data:
@@ -81,7 +82,6 @@ def load_data_by_type(path, type):
             break
         i += 1
 
-    grid_rows = 7
     y_train = to_categoricals(path, labels, 20, grid_rows)
 
 

@@ -75,7 +75,7 @@ def get_image_list(main_path, last_name):
         image_names = f.read().splitlines()
     return image_names
 
-def get_objects(anno):
+def get_objects(anno, grid_rows):
     size = anno.find('size')
     width = float(size.findChild('width').contents[0])
     height = float(size.findChild('height').contents[0])
@@ -95,9 +95,9 @@ def get_objects(anno):
         ycen = (ymin + ymax) / 2.0 / height
         points.append([xcen, ycen])
 
-        y = math.floor(ycen * 12)
-        x = math.floor(xcen * 12)
-        position = y*12 + x
+        y = math.floor(ycen * grid_rows)
+        x = math.floor(xcen * grid_rows)
+        position = y*grid_rows + x
 
         obj_name = obj.findChildren('name')[0].contents[0]
 
@@ -109,7 +109,7 @@ def get_objects(anno):
 
     return obj_pos_dict
 
-def draw_image(path, image_name):
+def draw_image(path, image_name, grid_rows):
     from PIL import ImageFont, Image, ImageDraw
     anno_path =  "/".join([path, "Annotations", image_name+".xml"])
     anno = load_annotation(anno_path)
@@ -121,16 +121,16 @@ def draw_image(path, image_name):
     from PIL import Image, ImageDraw
     im = Image.open(image_path)
     draw = ImageDraw.Draw(im)
-    h_gap = width/12
-    v_gap = height/12
-    for i in range(1,12):
+    h_gap = width/grid_rows
+    v_gap = height/grid_rows
+    for i in range(1,grid_rows):
         draw.line((i*h_gap,0, i*h_gap,height), fill=128)
         draw.line((0,i*v_gap, width, i*v_gap), fill=128)
 
     font = ImageFont.truetype("simsun.ttf", 15)
-    for i in range(12):
-        for j in range(12):
-            draw.text((i*h_gap + 2,j * v_gap +2), str(j*12 + i), font=font)
+    for i in range(grid_rows):
+        for j in range(grid_rows):
+            draw.text((i*h_gap + 2,j * v_gap +2), str(j*grid_rows + i), font=font)
 
 
     objs = anno.findAll('object')
@@ -149,7 +149,7 @@ def draw_image(path, image_name):
     return im
 
 
-def getImageAndAnnotations(path, last_name):
+def getImageAndAnnotations(path, last_name, grid_rows):
 
     main_path = "/".join([path, "ImageSets/Main"])
     image_list = get_image_list(main_path, last_name)
@@ -166,7 +166,7 @@ def getImageAndAnnotations(path, last_name):
         anno = load_annotation(anno_filepath)
 
         #do detect if the
-        obj_pos = get_objects(anno)
+        obj_pos = get_objects(anno, grid_rows=grid_rows)
         file_obj_pos[image] = obj_pos
         objects_count += obj_pos.__len__()
         # im = draw_image(path, image)
