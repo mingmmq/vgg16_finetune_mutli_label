@@ -5,7 +5,7 @@ export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64:$LD_LIBRARY_PATH
 
 python vgg16_deepset.py
 
-time_stamp=$(date +%Y_%m_%d_%H_%M_%S)
+time_stamp=$(date +%Y_%m_%d_%H_%M_%S)$1
 mkdir $time_stamp
 
 #move the files to the folder as a record, with the time

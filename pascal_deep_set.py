@@ -29,6 +29,7 @@ def load_data(data_path=""):
     return (x_train, y_train), (x_test, y_test)
 
 def load_data_by_type(path, type):
+    #this is used the set the grid line numbers, and the rejected images are listed by another program
     grid_rows = 7
     if type == "train":
         data = pascal_dict.getImageAndAnnotations(path, '_train.txt', grid_rows)
