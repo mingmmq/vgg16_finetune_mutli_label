@@ -101,6 +101,9 @@ def load_data_by_type(path, type):
 
         # no need to check the grid in the detection task
         # if check_grid(coco, img_info, grid_rows):
+        if num_samples is 1000:
+            break
+
         num_samples += 1
 
     # num_train_samples = len(data.keys())
@@ -128,9 +131,6 @@ def load_data_by_type(path, type):
 
         labels.append(object_positions(coco, img_info, grid_rows))
         files.append(img_info["file_name"])
-
-        if i+1 is 10000:
-            break
 
         if i + 1 == num_samples:
             break
