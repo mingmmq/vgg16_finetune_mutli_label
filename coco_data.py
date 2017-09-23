@@ -101,14 +101,14 @@ def load_data_by_type(path, type):
 
         # no need to check the grid in the detection task
         # if check_grid(coco, img_info, grid_rows):
-        if num_samples is 1000:
+        if num_samples == 1000:
             break
 
         num_samples += 1
 
     # num_train_samples = len(data.keys())
     # num_train_samples = 32
-    print(num_samples)
+    print("number of samples:", num_samples)
 
     x_train = np.zeros((num_samples, 3, 224, 224), dtype='uint8')
     # y_train = np.zeros((num_train_samples, 20), dtype='uint8')
