@@ -108,7 +108,6 @@ def load_data_by_type(path, type):
 
     # num_train_samples = len(data.keys())
     # num_train_samples = 32
-
     print(num_samples)
 
     x_train = np.zeros((num_samples, 3, 224, 224), dtype='uint8')
