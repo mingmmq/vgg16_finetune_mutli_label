@@ -261,7 +261,7 @@ if __name__ == '__main__':
     channel = 3
     num_labels = 980
     batch_size = 16 
-    nb_epoch = 30
+    nb_epoch = 300
 
 
     image_path = "/Users/qianminming/Github/coco/"

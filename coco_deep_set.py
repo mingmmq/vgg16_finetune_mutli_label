@@ -149,6 +149,11 @@ def load_data_by_type(path, type):
         labels.append(object_positions(coco, img_info, grid_rows))
         files.append(img_info["file_name"])
 
+        #break to test
+        test_number = 10
+        if i+1 is test_number:
+            break
+
         if i + 1 == num_samples:
             break
         i += 1
@@ -188,13 +193,10 @@ def object_positions(coco, img, grid_rows):
     return objects_pos
 
 
-def to_categoricals(path, y, num_classes, grid_rows):
+def to_categoricals(coco, y, num_classes, grid_rows):
     # y = np.array(y, dtype='int')
     # if not num_classes:
     #     num_classes = np.max(y) + 1
-    cat_dict = {}
-
-    print(cat_dict)
 
     n = len(y)
     categorical = np.zeros((n, num_classes * grid_rows * grid_rows)).astype('float64')
@@ -202,7 +204,7 @@ def to_categoricals(path, y, num_classes, grid_rows):
     for i in range(0, n):
         # print("\n", files[i], y[i])
         for key in y[i]:
-            lists = [int(j + grid_rows * grid_rows * cat_dict[key]) for j in y[i][key]]
+            lists = [int(j + grid_rows * grid_rows * (key - 1)) for j in y[i][key]]
             # print(key, lists)
             categorical[i,  lists] = 1
 
