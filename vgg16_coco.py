@@ -259,7 +259,7 @@ if __name__ == '__main__':
 
     img_rows, img_cols = 224, 224 # Resolution of inputs
     channel = 3
-    num_labels = 980
+    num_labels = 90
     batch_size = 16
     nb_epoch = 50
 
@@ -282,7 +282,6 @@ if __name__ == '__main__':
                         shuffle=True,
                         verbose=1,
                         validation_data=(X_valid, Y_valid),
-                        callbacks=[my_callback]
               )
 
     model.save_weights('trained_model.h5')

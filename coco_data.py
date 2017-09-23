@@ -129,6 +129,9 @@ def load_data_by_type(path, type):
         labels.append(object_positions(coco, img_info, grid_rows))
         files.append(img_info["file_name"])
 
+        if i+1 is 10000:
+            break
+
         if i + 1 == num_samples:
             break
         i += 1
