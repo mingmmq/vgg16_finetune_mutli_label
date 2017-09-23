@@ -117,15 +117,6 @@ def load_data_by_type(path, type):
     # In what order will the key be iterated? the order in linux is different from in macos
     files = []
     for image_id, img_info in data.items():
-        # #for one label only image for testing
-        # if len(data[key]) > 1:
-        #     continue
-
-        # no need to check the grid and just take all the images and classify
-        # if check_grid(coco, img_info, grid_rows):
-        #     num_samples += 1
-        # else:
-        #     continue
 
         image_path = "/".join([path, "images",type_path, img_info["file_name"]])
 
@@ -135,17 +126,6 @@ def load_data_by_type(path, type):
         dr = cv2.resize(d.transpose(1, 2, 0), (224, 224)).transpose(2, 0, 1)
         x_train[i,:,:,:] = dr
 
-        # from PIL import Image
-        # di = cv2.resize(d.transpose(1, 2, 0), (224, 224))
-        # img = Image.fromarray(di, 'RGB')
-        # img.save('my.png')
-        # img.show()
-        # print(data[key])
-
-        # while len(data[key]) < num_classes:
-        #     data[key].append(data[key][0])
-
-        # y_train[i,:] = data[key]
         labels.append(object_positions(coco, img_info, grid_rows))
         files.append(img_info["file_name"])
 
@@ -197,7 +177,7 @@ def to_categoricals_v1(coco, y, num_classes):
         lists = [x - 1 for x in list(y[i].copy().keys())]
         categorical[i,  lists] = 1
 
-    return
+    return categorical
 
 
 def to_categoricals(coco, y, num_classes, grid_rows):

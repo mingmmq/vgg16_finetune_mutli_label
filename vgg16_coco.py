@@ -198,7 +198,7 @@ def _loss_tensor(y_true, y_pred):
     random_tensor = K.random_binomial(shape=shape, p= (shape[1]-max)/(shape[1]))
     n_true = K.clip(y_true + random_tensor, K.epsilon(), 1.0-K.epsilon())
 
-    out = -(y_true * K.log(y_pred)*300 + (1.0 - y_true) * K.log(1.0 - y_pred))
+    out = -(y_true * K.log(y_pred) + (1.0 - y_true) * K.log(1.0 - y_pred))
     return K.mean(out, axis=-1)
 
 
@@ -261,7 +261,7 @@ if __name__ == '__main__':
     channel = 3
     num_labels = 980
     batch_size = 16
-    nb_epoch = 300
+    nb_epoch = 50
 
 
     image_path = "../coco/"
