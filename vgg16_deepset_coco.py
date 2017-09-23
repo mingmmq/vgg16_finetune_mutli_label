@@ -264,7 +264,7 @@ if __name__ == '__main__':
     nb_epoch = 300
 
 
-    image_path = "/Users/qianminming/Github/coco/"
+    image_path = "../coco/"
     # Load Cifar10 data. Please implement your own load_data() module for your own dataset
     # X_train, Y_train, X_valid, Y_valid = load_cifar10_data(img_rows, img_cols)
     X_train, Y_train, X_valid, Y_valid = load_coco_data(image_path)

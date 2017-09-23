@@ -28,15 +28,4 @@ def load_coco_data(image_path):
     # X_valid[:, 1, :, :] -= 116.779
     # X_valid[:, 2, :, :] -= 123.68
 
-    # # Resize trainging images, th means theano / else is the tensorflow
-    # if K.image_dim_ordering() == 'th':
-    #   X_train = np.array([cv2.resize(img.transpose(1,2,0), (img_rows,img_cols)).transpose(2,0,1) for img in X_train[:nb_train_samples,:,:,:]])
-    #   X_valid = np.array([cv2.resize(img.transpose(1,2,0), (img_rows,img_cols)).transpose(2,0,1) for img in X_valid[:nb_valid_samples,:,:,:]])
-    # else:
-    #   X_train = np.array([cv2.resize(img, (img_rows,img_cols)) for img in X_train[:nb_train_samples,:,:,:]])
-    #   X_valid = np.array([cv2.resize(img, (img_rows,img_cols)) for img in X_valid[:nb_valid_samples,:,:,:]])
-    #
-    # # Transform targets to pytorch compatible format
-    # Y_train = to_categoricals(Y_train[:nb_train_samples], num_classes)
-    # Y_valid = to_categoricals(Y_valid[:nb_valid_samples], num_classes)
     return X_train, Y_train, X_valid, Y_valid

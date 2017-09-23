@@ -150,9 +150,9 @@ def load_data_by_type(path, type):
         files.append(img_info["file_name"])
 
         #break to test
-        test_number = 10
-        if i+1 is test_number:
-            break
+        # test_number = 10
+        # if i+1 is test_number:
+        #     break
 
         if i + 1 == num_samples:
             break
