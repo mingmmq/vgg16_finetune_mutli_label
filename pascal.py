@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 from keras.preprocessing import image
-import get_dataset_list as pascal_dict
+import get_pascal_data_list as pascal_dict
 import numpy as np
 from keras.utils import np_utils
 import cv2

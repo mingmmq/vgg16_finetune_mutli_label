@@ -29,7 +29,7 @@ def getImageAndLabels(path, last_name):
                 #     break
                 # count += 1
 
-                if img_path.__contains__(" -1"):
+                if " -1" in img_path:
                     continue
 
                 img_path = os.path.join(path, 'JPEGImages', img_path.split()[0] + ".jpg")
@@ -60,7 +60,6 @@ def getCategoryDict(main_path):
 
 # annotation operations
 def load_annotation(anno_filename):
-    xml = ""
     with open(anno_filename) as f:
         xml = f.readlines()
     xml = ''.join([line.strip('\t') for line in xml])
@@ -145,9 +144,62 @@ def draw_image(path, image_name, grid_rows):
         ycen = (ymin + ymax) / 2.0
         draw.ellipse((xcen-4, ycen-4, xcen +4,ycen +4), fill = 'blue', outline ='blue')
 
-    # im.show()
+    im.show()
     return im
 
+def not_in_the_same_grid(points, dim):
+    the_dict = {}
+    for point in points:
+        x = int(math.floor(point[0]  * dim))
+        y = int(math.floor(point[1] * dim))
+        key = str(x) + ',' + str(y)
+        if key not in the_dict:
+            the_dict[key] = 1
+        else:
+            the_dict[key] += 1
+
+    for value in the_dict.values():
+        if value > 1:
+            return True
+
+    return False
+
+
+
+def pass_grid_check(path, img, dim):
+    anno_path =  "/".join([path, "Annotations", img+".xml"])
+    anno = load_annotation(anno_path)
+    size = anno.find('size')
+    width = float(size.findChild('width').contents[0])
+    height = float(size.findChild('height').contents[0])
+
+    points_in_cat = {}
+    objs = anno.findAll('object')
+    for obj in objs:
+        name_tag = obj.findChild('name')
+        fname = anno.findChild('filename').contents[0]
+
+        bbox = obj.findChildren('bndbox')[0]
+        xmin = int(bbox.findChildren('xmin')[0].contents[0])
+        ymin = int(bbox.findChildren('ymin')[0].contents[0])
+        xmax = int(bbox.findChildren('xmax')[0].contents[0])
+        ymax = int(bbox.findChildren('ymax')[0].contents[0])
+        xcen = (xmin + xmax) / 2.0 / width
+        ycen = (ymin + ymax) / 2.0 / height
+
+        if name_tag not in points_in_cat:
+            points_in_cat[name_tag] = []
+        points_in_cat[name_tag].append([xcen, ycen])
+            # print xcen, ycen
+
+    # print anno.findChild('filename').contents[0]
+    for cat, centers in points_in_cat.items():
+        if not_in_the_same_grid(centers, dim):
+            # print "have objects in the same grid"
+            return False
+
+    # print "no objects in the same grid"
+    return True
 
 def getImageAndAnnotations(path, last_name, grid_rows):
 
@@ -159,7 +211,10 @@ def getImageAndAnnotations(path, last_name, grid_rows):
     file_obj_pos = {}
     count = 0
     for image in image_list:
-        if image in rejects_7:
+
+        if not pass_grid_check(path, image, grid_rows):
+            print(image)
+            # draw_image(path, image, grid_rows)
             continue
 
         anno_filepath = "/".join([path, "Annotations", image+".xml"])
