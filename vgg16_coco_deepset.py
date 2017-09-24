@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
 os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device=gpu1,floatX=float32"
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 import keras
 from keras.models import Sequential
 from keras.optimizers import SGD
@@ -13,10 +16,6 @@ from sklearn.metrics import log_loss
 from load_cifar10 import load_cifar10_data
 from load_pascal_deepset import  load_pascal_data
 from load_coco_deepset import load_coco_data
-import matplotlib
-
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
 import numpy as np
 from keras import backend as K
 K.set_image_dim_ordering('th')
