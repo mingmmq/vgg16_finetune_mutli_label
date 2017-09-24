@@ -22,7 +22,7 @@ def load_data(data_path=""):
     if data_path == "":
         print("data_path required: VOC2012 or VOC 2007")
         exit()
-    path = "/".join(["data/VOCdevkit",data_path])
+    path = "/".join(["../pascal/VOCdevkit",data_path])
     (x_train, y_train) = load_data_by_type(path, "train")
     (x_test, y_test)  = load_data_by_type(path, "val")
 
