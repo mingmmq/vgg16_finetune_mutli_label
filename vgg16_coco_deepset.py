@@ -281,7 +281,7 @@ def parse_arguments():
     loss_function = _loss_tensor if args.lf else "binary_crossentropy"
 
 if __name__ == '__main__':
-
+    parse_arguments()
     # Example to fine-tune on 3000 samples from Cifar10
 
     img_rows, img_cols = 224, 224 # Resolution of inputs

@@ -279,6 +279,7 @@ def parse_arguments():
 if __name__ == '__main__':
 
     # Example to fine-tune on 3000 samples from Cifar10
+    parse_arguments()
 
     img_rows, img_cols = 224, 224 # Resolution of inputs
     channel = 3
