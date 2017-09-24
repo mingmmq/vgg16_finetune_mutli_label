@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device=gpu0,floatX=float32"
+os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device=gpu1,floatX=float32"
 import keras
 from keras.models import Sequential
 from keras.optimizers import SGD
@@ -164,9 +164,9 @@ def vgg16_model(img_rows, img_cols, channel=1, num_labels=None):
     #    layer.trainable = False
 
     # Learning rate is changed to 0.001
-    sgd = SGD(lr=1e-3, decay=1e-6, momentum=0.9, nesterov=True)
+    sgd = SGD(lr=learning_rate, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(optimizer=sgd,
-                  loss=_loss_tensor,
+                  loss=loss_function,
                   metrics=[acc, precision, recall, f1])
 
     return model
@@ -198,7 +198,7 @@ def _loss_tensor(y_true, y_pred):
     random_tensor = K.random_binomial(shape=shape, p= (shape[1]-max)/(shape[1]))
     n_true = K.clip(y_true + random_tensor, K.epsilon(), 1.0-K.epsilon())
 
-    out = -(y_true * K.log(y_pred)*300 + (1.0 - y_true) * K.log(1.0 - y_pred))
+    out = -(y_true * K.log(y_pred)*left_weight + (1.0 - y_true) * K.log(1.0 - y_pred) * right_weight)
     return K.mean(out, axis=-1)
 
 
@@ -252,6 +252,34 @@ class My_Callback(keras.callbacks.Callback):
               %(K.eval(pred_positive_rate), K.eval(precision), K.eval(recall), K.eval(accuracy), K.eval(K.mean(loss_original)), K.eval(K.mean(loss_now)) ,K.eval(sum_of_n_true), K.eval(sum_of_y_pred)))
         return
 
+def parse_arguments():
+    import argparse
+    global learning_rate
+    global grids_per_row
+    global nb_epoch
+    global left_weight
+    global right_weight
+    global pascal_version
+    global loss_function
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--lr', help='learning rate')
+    parser.add_argument('--grid', help="grid per row and column")
+    parser.add_argument('--epochs', help="number of epochs")
+    parser.add_argument('--lw', help="left weight on the loss function")
+    parser.add_argument('--rw', help="right weight on the loss function")
+    parser.add_argument('--pv', help="pascal version")
+    parser.add_argument('--lf', help="loss function")
+    args = parser.parse_args()
+
+
+    learning_rate = float(args.lr) if args.lr else 0.01
+    grids_per_row = args.grid if args.grid else 7
+    nb_epoch = args.epochs if args.epochs else 60
+    left_weight = args.lw if args.lw else 1
+    right_weight = args.rw if args.rw else 1
+    pascal_version = args.pv if args.pv else "VOC2007"
+    loss_function = _loss_tensor if args.lf else "binary_crossentropy"
 
 if __name__ == '__main__':
 
@@ -259,9 +287,8 @@ if __name__ == '__main__':
 
     img_rows, img_cols = 224, 224 # Resolution of inputs
     channel = 3
-    num_labels = 980
+    num_labels = 90 * grids_per_row * grids_per_row
     batch_size = 16 
-    nb_epoch = 300
 
 
     image_path = "../coco/"

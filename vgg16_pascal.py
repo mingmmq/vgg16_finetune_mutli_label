@@ -243,7 +243,7 @@ if __name__ == '__main__':
 
     # Load Cifar10 data. Please implement your own load_data() module for your own dataset
     # X_train, Y_train, X_valid, Y_valid = load_cifar10_data(img_rows, img_cols)
-    X_train, Y_train, X_valid, Y_valid = load_pascal_data("VOC2007")
+    X_train, Y_train, X_valid, Y_valid = load_pascal_data(pascal_version)
 
 
     # Load our model

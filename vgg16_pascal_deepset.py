@@ -288,12 +288,12 @@ if __name__ == '__main__':
     # Example to fine-tune on 3000 samples from Cifar10
     img_rows, img_cols = 224, 224 # Resolution of inputs
     channel = 3
-    num_labels = 20
+    num_labels = 20 * grids_per_row * grids_per_row
     batch_size = 16 
 
     # Load Cifar10 data. Please implement your own load_data() module for your own dataset
     # X_train, Y_train, X_valid, Y_valid = load_cifar10_data(img_rows, img_cols)
-    X_train, Y_train, X_valid, Y_valid = load_pascal_data("VOC2012")
+    X_train, Y_train, X_valid, Y_valid = load_pascal_data(pascal_version)
 
 
     # Load our model
