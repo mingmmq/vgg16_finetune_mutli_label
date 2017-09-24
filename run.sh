@@ -14,3 +14,6 @@ mv losses.png $time_stamp/
 mv train_precision_recall.png $time_stamp/
 mv val_precision_recall.png $time_stamp/
 mv nohup.out $time_stamp/
+
+#todo: 1.check the general process
+#todo: 2.use the tee to put the output into the logs

@@ -204,6 +204,12 @@ class My_Callback(keras.callbacks.Callback):
 if __name__ == '__main__':
 
     # Example to fine-tune on 3000 samples from Cifar10
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--lr', help='learning rate')
+    args = parser.parse_args()
+
 
     img_rows, img_cols = 224, 224 # Resolution of inputs
     channel = 3

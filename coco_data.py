@@ -101,7 +101,7 @@ def load_data_by_type(path, type):
 
         # no need to check the grid in the detection task
         # if check_grid(coco, img_info, grid_rows):
-        if num_samples == 6400:
+        if num_samples == 640:
             break
 
         num_samples += 1
