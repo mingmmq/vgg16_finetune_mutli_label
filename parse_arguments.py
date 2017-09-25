@@ -9,6 +9,7 @@ def parse_arguments():
     parser.add_argument('--rw', help="right weight on the loss function")
     parser.add_argument('--lf', help="loss function")
     parser.add_argument('--af', help="custom accuracy")
+    parser.add_argument('--pv', help="pascal version")
 
     args = parser.parse_args()
 
@@ -18,6 +19,7 @@ def parse_arguments():
     global right_weight
     global use_custom_loss_function
     global use_custom_accuracy_function
+    global pascal_version
 
     learning_rate = float(args.lr) if args.lr else 0.01
     grids_per_row = args.grid if args.grid else 7
@@ -26,6 +28,7 @@ def parse_arguments():
     right_weight = args.rw if args.rw else 1
     use_custom_loss_function = True if args.lf else False
     use_custom_accuracy_function = True if args.af else False
+    pascal_version = args.pv if args.pv else "VOC2007"
 
 
     print("learning rate: ", learning_rate)
