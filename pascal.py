@@ -87,7 +87,7 @@ def load_data_by_type(path, type):
         lns  = ""
         for l in labels[j]:
             lns += files[l]
-        print(image_names[j] + " " + str(labels[j]) + "" + lns )
+        # print(image_names[j] + " " + str(labels[j]) + "" + lns )
 
 
     y_train = to_categoricals(labels, 20)
