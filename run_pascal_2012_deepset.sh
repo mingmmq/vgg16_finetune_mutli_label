@@ -22,56 +22,56 @@ save_images(){
 
 #usage: vgg16_pascal_deepset.py
 # [-h] [--lr LR] [--grid GRID] [--epochs EPOCHS]
-# [--lw LW] [--rw RW] [--lf LF] [--af AF] [--pv PV]
-text="--lr 1e-4 --epochs 40 --pv VOC2012 --grid 7"
+# [--lw LW] [--rw RW] [--lf LF] [--af AF] [--data PV]
+text="--lr 1e-4 --epochs 40 --data VOC2012 --grid 7"
 python vgg16_pascal_deepset.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
 
 #custom loss function with default weights
-text="--lr 1e-4 --epochs 40 --pv VOC2012 --lf yes --grid 7"
+text="--lr 1e-4 --epochs 40 --data VOC2012 --lf yes --grid 7"
 python vgg16_pascal_deepset.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
 
-text="--lr 1e-4 --epochs 40 --pv VOC2012 --lf yes --lw 300 --grid 7"
+text="--lr 1e-4 --epochs 40 --data VOC2012 --lf yes --lw 300 --grid 7"
 python vgg16_pascal_deepset.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
 
-text="--lr 1e-4 --epochs 40 --pv VOC2012 --lf yes --rw 300 --grid 7"
+text="--lr 1e-4 --epochs 40 --data VOC2012 --lf yes --rw 300 --grid 7"
 python vgg16_pascal_deepset.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
 
-text="--lr 1e-4 --epochs 40 --pv VOC2012 --lf yes --lf 300 --rw 300 --grid 7"
+text="--lr 1e-4 --epochs 40 --data VOC2012 --lf yes --lf 300 --rw 300 --grid 7"
 python vgg16_pascal_deepset.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
 
 
 #change to see the different learning rate
-text="--lr 1e-3 --epochs 40 --pv VOC2012 --grid 7"
+text="--lr 1e-3 --epochs 40 --data VOC2012 --grid 7"
 python vgg16_pascal_deepset.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
 
-text="--lr 1e-3 --epochs 40 --pv VOC2012 --lf yes --grid 7"
+text="--lr 1e-3 --epochs 40 --data VOC2012 --lf yes --grid 7"
 python vgg16_pascal_deepset.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
 
-text="--lr 1e-3 --epochs 40 --pv VOC2012 --lf yes --lw 300 --grid 7"
+text="--lr 1e-3 --epochs 40 --data VOC2012 --lf yes --lw 300 --grid 7"
 python vgg16_pascal_deepset.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
 
-text="--lr 1e-3 --epochs 40 --pv VOC2012 --lf yes --rw 300 --grid 7"
+text="--lr 1e-3 --epochs 40 --data VOC2012 --lf yes --rw 300 --grid 7"
 python vgg16_pascal_deepset.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
 
-text="--lr 1e-3 --epochs 40 --pv VOC2012 --lf yes --lf 300 --rw 300 --grid 7"
+text="--lr 1e-3 --epochs 40 --data VOC2012 --lf yes --lf 300 --rw 300 --grid 7"
 python vgg16_pascal_deepset.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para

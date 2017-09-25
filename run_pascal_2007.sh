@@ -19,7 +19,11 @@ save_images(){
     #todo: 2.use the tee to put the output into the logs
 }
 
-text="--lr 1e-4 --epochs 40 --data VOC2007"
+
+#usage: vgg16.py
+# [-h] [--lr LR] [--grid GRID] [--epochs EPOCHS]
+# [--lw LW] [--rw RW] [--lf LF] [--af AF] [--data PV]
+text="--lr 1e-4 --epochs 40 --data VOC2012"
 python vgg16.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
