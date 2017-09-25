@@ -25,7 +25,7 @@ def parse_arguments():
     left_weight = args.lw if args.lw else 1
     right_weight = args.rw if args.rw else 1
     use_custom_loss_function = True if args.lf else False
-    use_custom_accuracy_function = True if args.ac else False
+    use_custom_accuracy_function = True if args.af else False
 
 
     print("learning rate: ", learning_rate)
