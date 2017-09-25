@@ -49,7 +49,7 @@ def parse_arguments():
     right_weight = int(args.rw) if args.rw else 1
     use_custom_loss_function = True if args.lf else False
     use_custom_accuracy_function = True if args.af else False
-    dataset = args.data if args.pv else "VOC2007"
+    dataset = args.data if args.data else "VOC2007"
 
 
     #print the args here
