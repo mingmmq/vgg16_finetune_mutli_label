@@ -9,7 +9,7 @@ global dataset
 
 def print_args():
     print("learning rate: ", learning_rate)
-    print("grids: ", grids_per_row)
+    print("grid: ", grids_per_row)
     print("number of epochs: ", nb_epoch)
     print("use custom loss function: ", use_custom_loss_function)
     print("loss left weight: ", left_weight)
