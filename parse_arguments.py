@@ -6,6 +6,7 @@ global right_weight
 global use_custom_loss_function
 global use_custom_accuracy_function
 global dataset
+global gpu
 
 def print_args():
     print("learning rate: ", learning_rate)
@@ -16,6 +17,7 @@ def print_args():
     print("loss right weight: ", right_weight)
     print("use custom accuracy function:", use_custom_accuracy_function)
     print("pascal voc version", dataset)
+    print("the gpu", gpu)
 
 
 
@@ -30,6 +32,8 @@ def parse_arguments():
     parser.add_argument('--lf', help="loss function")
     parser.add_argument('--af', help="custom accuracy")
     parser.add_argument('--data', help="choose the data")
+    parser.add_argument('--gpu', help="choose the gpu")
+
 
     args = parser.parse_args()
 
@@ -41,6 +45,7 @@ def parse_arguments():
     global use_custom_loss_function
     global use_custom_accuracy_function
     global dataset
+    global gpu
 
     learning_rate = float(args.lr) if args.lr else 0.01
     grids_per_row = int(args.grid) if args.grid else 7
@@ -50,6 +55,7 @@ def parse_arguments():
     use_custom_loss_function = True if args.lf else False
     use_custom_accuracy_function = True if args.af else False
     dataset = args.data if args.data else "VOC2007"
+    gpu = int(args.gpu) if args.gpu else 0
 
 
     #print the args here

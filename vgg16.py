@@ -1,7 +1,17 @@
 # -*- coding: utf-8 -*-
-# import os
+# Example to fine-tune on 3000 samples from Cifar10
+import parse_arguments as pa
+pa.parse_arguments()
+
+
+import os
 from plot_result import plot_result
-# os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device=gpu0,floatX=float32"
+##todo: currently I only use two, it's better to extend to more
+if pa.gpu == 0:
+    os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device=gpu0,floatX=float32"
+else:
+    os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device=gpu1,floatX=float32"
+
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -265,9 +275,6 @@ if __name__ == '__main__':
     channel = 3
     batch_size = 16
 
-    # Example to fine-tune on 3000 samples from Cifar10
-    import parse_arguments as pa
-    pa.parse_arguments()
 
     # Load Cifar10 data. Please implement your own load_data() module for your own dataset
     # X_train, Y_train, X_valid, Y_valid = load_cifar10_data(img_rows, img_cols)
