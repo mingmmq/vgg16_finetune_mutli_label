@@ -1,3 +1,23 @@
+global learning_rate
+global grids_per_row
+global nb_epoch
+global left_weight
+global right_weight
+global use_custom_loss_function
+global use_custom_accuracy_function
+global pascal_version
+
+def print_args():
+    print("learning rate: ", learning_rate)
+    print("grids: ", grids_per_row)
+    print("number of epochs: ", nb_epoch)
+    print("use custom loss function: ", use_custom_loss_function)
+    print("loss left weight: ", left_weight)
+    print("loss right weight: ", right_weight)
+    print("use custom accuracy function:", use_custom_accuracy_function)
+    print("pascal voc version", pascal_version)
+
+
 
 def parse_arguments():
     import argparse
@@ -32,13 +52,6 @@ def parse_arguments():
     pascal_version = args.pv if args.pv else "VOC2007"
 
 
-    print("learning rate: ", learning_rate)
-    print("grids: ", grids_per_row)
-    print("number of epochs: ", nb_epoch)
-    print("use custom loss function: ", use_custom_loss_function)
-    print("loss left weight: ", left_weight)
-    print("loss right weight: ", right_weight)
-    print("use custom accuracy function:", use_custom_accuracy_function)
-    print("pascal voc version", pascal_version)
-
+    #print the args here
+    print_args()
 
