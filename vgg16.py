@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-
 from plot_result import plot_result
-
 os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device=gpu1,floatX=float32"
 import matplotlib
 matplotlib.use('Agg')
@@ -12,10 +10,14 @@ from keras.models import Sequential
 from keras.optimizers import SGD
 from keras.layers import Input, Dense, Convolution2D, MaxPooling2D, AveragePooling2D, ZeroPadding2D, Dropout, Flatten, \
     merge, Reshape, Activation, Conv2D
+from keras import objectives
 
 from sklearn.metrics import log_loss
 
-from load_coco_deepset import load_coco_data
+from load_cifar10 import load_cifar10_data
+from load_pascal_deepset import  load_pascal_data
+from load_coco import load_coco_data
+
 import numpy as np
 from keras import backend as K
 K.set_image_dim_ordering('th')
@@ -28,12 +30,12 @@ def cus_acc(y_true, y_pred):
 
 
 def precision(y_true, y_pred):
-    """Precision metric.		
+    """Precision metric.
 
-    Only computes a batch-wise average of precision.		
+    Only computes a batch-wise average of precision.
 
-    Computes the precision, a metric for multi-label classification of		
-    how many selected items are relevant.		
+    Computes the precision, a metric for multi-label classification of
+    how many selected items are relevant.
     """
     true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
     predicted_positives = K.sum(K.round(K.clip(y_pred, 0, 1)))
@@ -41,12 +43,12 @@ def precision(y_true, y_pred):
     return precision
 
 def recall(y_true, y_pred):
-    """Recall metric.		
+    """Recall metric.
 
-    Only computes a batch-wise average of recall.		
+    Only computes a batch-wise average of recall.
 
-    Computes the recall, a metric for multi-label classification of		
-    how many relevant items are selected.		
+    Computes the recall, a metric for multi-label classification of
+    how many relevant items are selected.
     """
     true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
     possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
@@ -163,9 +165,12 @@ def vgg16_model(img_rows, img_cols, channel=1, num_labels=None):
     # Learning rate is changed to 0.001
     sgd = SGD(lr=pa.learning_rate, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(optimizer=sgd,
-                  loss= _loss_tensor if pa.use_custom_loss_function else "binary_crossentropy",
-                  metrics=['accuracy',acc,
-                           precision, recall, f1])
+                  loss=_loss_tensor if pa.use_custom_loss_function else "binary_crossentropy",
+                  metrics=[
+                           'accuracy',acc,
+                           precision,
+                           recall,
+                           f1])
 
     return model
 
@@ -196,7 +201,7 @@ def _loss_tensor(y_true, y_pred):
     random_tensor = K.random_binomial(shape=shape, p= (shape[1]-max)/(shape[1]))
     n_true = K.clip(y_true + random_tensor, K.epsilon(), 1.0-K.epsilon())
 
-    out = -(y_true * K.log(y_pred)*pa.left_weight + (1.0 - y_true) * K.log(1.0 - y_pred) * pa.right_weight)
+    out = -(y_true * K.log(y_pred) * pa.left_weight + (1.0 - y_true) * K.log(1.0 - y_pred) * pa.right_weight)
     return K.mean(out, axis=-1)
 
 
@@ -251,22 +256,30 @@ class My_Callback(keras.callbacks.Callback):
         return
 
 
+
+
 if __name__ == '__main__':
-    import parse_arguments as pa
-    pa.parse_arguments()
-    # Example to fine-tune on 3000 samples from Cifar10
+
 
     img_rows, img_cols = 224, 224 # Resolution of inputs
     channel = 3
-    num_labels = 90 * pa.grids_per_row * pa.grids_per_row
-    batch_size = 16 
+    batch_size = 16
 
+    # Example to fine-tune on 3000 samples from Cifar10
+    import parse_arguments as pa
+    pa.parse_arguments()
 
-    image_path = "../coco/"
     # Load Cifar10 data. Please implement your own load_data() module for your own dataset
     # X_train, Y_train, X_valid, Y_valid = load_cifar10_data(img_rows, img_cols)
-    X_train, Y_train, X_valid, Y_valid = load_coco_data(image_path)
+    if "VOC" not in pa.dataset:
+        image_path = "../coco/"
+        base_labels = 90
+        X_train, Y_train, X_valid, Y_valid = load_coco_data(image_path)
+    else:
+        base_labels = 20
+        X_train, Y_train, X_valid, Y_valid = load_pascal_data(pa.dataset)
 
+    num_labels = base_labels * pa.grids_per_row * pa.grids_per_row
 
     # Load our model
     model = vgg16_model(img_rows, img_cols, channel, num_labels)
@@ -280,7 +293,6 @@ if __name__ == '__main__':
                         shuffle=True,
                         verbose=1,
                         validation_data=(X_valid, Y_valid),
-                        callbacks=[my_callback]
               )
 
     model.save_weights('trained_model.h5')
@@ -289,10 +301,9 @@ if __name__ == '__main__':
     predictions_valid = model.predict(X_valid, batch_size=batch_size, verbose=1)
     print(predictions_valid)
 
+
     # Cross-entropy loss score
     score = log_loss(Y_valid, predictions_valid)
     print(score)
 
-    #plot the results
     plot_result(plt, history)
-

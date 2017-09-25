@@ -5,7 +5,7 @@ global left_weight
 global right_weight
 global use_custom_loss_function
 global use_custom_accuracy_function
-global pascal_version
+global dataset
 
 def print_args():
     print("learning rate: ", learning_rate)
@@ -15,7 +15,7 @@ def print_args():
     print("loss left weight: ", left_weight)
     print("loss right weight: ", right_weight)
     print("use custom accuracy function:", use_custom_accuracy_function)
-    print("pascal voc version", pascal_version)
+    print("pascal voc version", dataset)
 
 
 
@@ -29,7 +29,7 @@ def parse_arguments():
     parser.add_argument('--rw', help="right weight on the loss function")
     parser.add_argument('--lf', help="loss function")
     parser.add_argument('--af', help="custom accuracy")
-    parser.add_argument('--pv', help="pascal version")
+    parser.add_argument('--data', help="choose the data")
 
     args = parser.parse_args()
 
@@ -40,7 +40,7 @@ def parse_arguments():
     global right_weight
     global use_custom_loss_function
     global use_custom_accuracy_function
-    global pascal_version
+    global dataset
 
     learning_rate = float(args.lr) if args.lr else 0.01
     grids_per_row = int(args.grid) if args.grid else 7
@@ -49,7 +49,7 @@ def parse_arguments():
     right_weight = int(args.rw) if args.rw else 1
     use_custom_loss_function = True if args.lf else False
     use_custom_accuracy_function = True if args.af else False
-    pascal_version = args.pv if args.pv else "VOC2007"
+    dataset = args.pv if args.pv else "VOC2007"
 
 
     #print the args here

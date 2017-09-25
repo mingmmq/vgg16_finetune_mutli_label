@@ -20,36 +20,58 @@ save_images(){
 }
 
 
-#usage: vgg16_pascal.py
+#usage: vgg16.py
 # [-h] [--lr LR] [--grid GRID] [--epochs EPOCHS]
-# [--lw LW] [--rw RW] [--lf LF] [--af AF] [--pv PV]
-
-text="--lr 1e-4 --epochs 40 --pv VOC2012"
-python vgg16_pascal.py $text | tee log.out
+# [--lw LW] [--rw RW] [--lf LF] [--af AF] [--data PV]
+text="--lr 1e-4 --epochs 40 --data VOC2012"
+python vgg16.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
 
-text="--lr 1e-4 --epochs 40 --pv VOC2012 --lf yes"
-python vgg16_pascal.py $text | tee log.out
+#custom loss function with default weights
+text="--lr 1e-4 --epochs 40 --data VOC2012 --lf yes"
+python vgg16.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
 
-text="--lr 1e-4 --epochs 40 --pv VOC2012 --lf yes --af yes"
-python vgg16_pascal.py $text | tee log.out
+text="--lr 1e-4 --epochs 40 --data VOC2012 --lf yes --lw 300"
+python vgg16.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
 
-text="--lr 1e-3 --epochs 40 --pv VOC2012"
-python vgg16_pascal.py $text | tee log.out
+text="--lr 1e-4 --epochs 40 --data VOC2012 --lf yes --rw 300"
+python vgg16.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
 
-text="--lr 1e-3 --epochs 40 --pv VOC2012 --lf yes"
-python vgg16_pascal.py $text | tee log.out
+text="--lr 1e-4 --epochs 40 --data VOC2012 --lf yes --lf 300 --rw 300"
+python vgg16.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
 
-text="--lr 1e-3 --epochs 40 --pv VOC2012 --lf yes --af yes"
-python vgg16_pascal.py $text | tee log.out
+
+#change to see the different learning rate
+text="--lr 1e-3 --epochs 40 --data VOC2012"
+python vgg16.py $text | tee log.out
+para=$(echo $text | tr -d ' ')
+save_images $para
+
+text="--lr 1e-3 --epochs 40 --data VOC2012 --lf yes"
+python vgg16.py $text | tee log.out
+para=$(echo $text | tr -d ' ')
+save_images $para
+
+text="--lr 1e-3 --epochs 40 --data VOC2012 --lf yes --lw 300"
+python vgg16.py $text | tee log.out
+para=$(echo $text | tr -d ' ')
+save_images $para
+
+text="--lr 1e-3 --epochs 40 --data VOC2012 --lf yes --rw 300"
+python vgg16.py $text | tee log.out
+para=$(echo $text | tr -d ' ')
+save_images $para
+
+text="--lr 1e-3 --epochs 40 --data VOC2012 --lf yes --lf 300 --rw 300"
+python vgg16.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
