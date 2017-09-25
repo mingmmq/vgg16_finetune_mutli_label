@@ -19,6 +19,9 @@ from plot_result import plot_result
 
 
 
+def acc(y_true, y_pred):
+    return K.mean(K.equal(y_true, K.round(y_pred)), axis=-1)
+
 def precision(y_true, y_pred):
     """Precision metric.		
 
@@ -150,10 +153,11 @@ def vgg16_model(img_rows, img_cols, channel=1, num_classes=None):
     #    layer.trainable = False
 
     # Learning rate is changed to 0.001
-    sgd = SGD(lr=parse_arguments.learning_rate, decay=1e-6, momentum=0.9, nesterov=True)
+    sgd = SGD(lr=pa.learning_rate, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(optimizer=sgd,
-                  loss= _loss_tensor if parse_arguments.loss_function else "binary_crossentropy",
-                  metrics=['accuracy', precision, recall, f1])
+                  loss= _loss_tensor if pa.use_custom_loss_function else "binary_crossentropy",
+                  metrics=[acc if pa.use_custom_accuracy_function else 'accuracy',
+                           precision, recall, f1])
 
     return model
 
@@ -165,7 +169,7 @@ def _loss_tensor_bak(y_true, y_pred):
 
 def _loss_tensor(y_true, y_pred):
     y_pred = K.clip(y_pred, K.epsilon(), 1.0-K.epsilon())
-    out = -(y_true * K.log(y_pred) * parse_arguments.left_weight + (1.0 -y_true)*K.log(1.0-y_pred) * parse_arguments.right_weight)
+    out = -(y_true * K.log(y_pred) * pa.left_weight + (1.0 -y_true)*K.log(1.0-y_pred) * pa.right_weight)
     return K.mean(out, axis=-1)
 
 
@@ -207,8 +211,8 @@ class My_Callback(keras.callbacks.Callback):
 
 if __name__ == '__main__':
 
-    import parse_arguments
-    parse_arguments.parse_arguments()
+    import parse_arguments as pa
+    pa.parse_arguments()
 
     # Example to fine-tune on 3000 samples from Cifar10
     img_rows, img_cols = 224, 224 # Resolution of inputs
@@ -218,7 +222,7 @@ if __name__ == '__main__':
 
     # Load Cifar10 data. Please implement your own load_data() module for your own dataset
     # X_train, Y_train, X_valid, Y_valid = load_cifar10_data(img_rows, img_cols)
-    X_train, Y_train, X_valid, Y_valid = load_pascal_data(parse_arguments.pascal_version)
+    X_train, Y_train, X_valid, Y_valid = load_pascal_data(pa.pascal_version)
 
 
     # Load our model
@@ -229,7 +233,7 @@ if __name__ == '__main__':
     # Start Fine-tuning
     history = model.fit(X_train, Y_train,
               batch_size=batch_size,
-              epochs=parse_arguments.nb_epoch,
+              epochs=pa.nb_epoch,
               shuffle=True,
               verbose=1,
               validation_data=(X_valid, Y_valid),
