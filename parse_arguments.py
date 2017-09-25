@@ -13,6 +13,7 @@ def parse_arguments():
 
     args = parser.parse_args()
 
+    global learning_rate
     global grids_per_row
     global nb_epoch
     global left_weight
@@ -38,5 +39,6 @@ def parse_arguments():
     print("loss left weight: ", left_weight)
     print("loss right weight: ", right_weight)
     print("use custom accuracy function:", use_custom_accuracy_function)
+    print("pascal voc version", pascal_version)
 
 

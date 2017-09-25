@@ -243,58 +243,21 @@ class My_Callback(keras.callbacks.Callback):
               %(K.eval(pred_positive_rate), K.eval(precision), K.eval(recall), K.eval(accuracy), K.eval(K.mean(loss_original)), K.eval(K.mean(loss_now)) ,K.eval(sum_of_n_true), K.eval(sum_of_y_pred)))
         return
 
-def parse_arguments():
-    import argparse
-    global learning_rate
-    global grids_per_row
-    global nb_epoch
-    global left_weight
-    global right_weight
-    global pascal_version
-    global loss_function
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--lr', help='learning rate')
-    parser.add_argument('--grid', help="grid per row and column")
-    parser.add_argument('--epochs', help="number of epochs")
-    parser.add_argument('--lw', help="left weight on the loss function")
-    parser.add_argument('--rw', help="right weight on the loss function")
-    parser.add_argument('--pv', help="pascal version")
-    parser.add_argument('--lf', help="loss function")
-    args = parser.parse_args()
-
-
-    learning_rate = float(args.lr) if args.lr else 0.01
-    grids_per_row = args.grid if args.grid else 7
-    nb_epoch = args.epochs if args.epochs else 60
-    left_weight = args.lw if args.lw else 1
-    right_weight = args.rw if args.rw else 1
-    pascal_version = args.pv if args.pv else "VOC2007"
-    loss_function = _loss_tensor if args.lf else "binary_crossentropy"
-
-    print("learning rate: ", learning_rate)
-    print("grids: ", grids_per_row)
-    print("number of epochs: ", nb_epoch)
-    print("pascal version", pascal_version)
-    print("cumstom function: ", loss_function)
-    print("loss left weight: ", left_weight)
-    print("loss right weight: ", right_weight)
-
-
 
 if __name__ == '__main__':
     #here to parse the arguments and run different experiments
-    parse_arguments()
+    import parse_arguments
+    parse_arguments.parse_arguments()
 
     # Example to fine-tune on 3000 samples from Cifar10
     img_rows, img_cols = 224, 224 # Resolution of inputs
     channel = 3
-    num_labels = 20 * grids_per_row * grids_per_row
+    num_labels = 20 * parse_arguments.grids_per_row * parse_arguments.grids_per_row
     batch_size = 16 
 
     # Load Cifar10 data. Please implement your own load_data() module for your own dataset
     # X_train, Y_train, X_valid, Y_valid = load_cifar10_data(img_rows, img_cols)
-    X_train, Y_train, X_valid, Y_valid = load_pascal_data(pascal_version)
+    X_train, Y_train, X_valid, Y_valid = load_pascal_data(parse_arguments.pascal_version)
 
 
     # Load our model
@@ -305,7 +268,7 @@ if __name__ == '__main__':
     # Start Fine-tuning
     history = model.fit(X_train, Y_train,
                         batch_size=batch_size,
-                        epochs=nb_epoch,
+                        epochs=parse_arguments.nb_epoch,
                         shuffle=True,
                         verbose=1,
                         validation_data=(X_valid, Y_valid),
