@@ -15,7 +15,7 @@ save_images(){
     mv log.out ./reports/$time_stamp/
 
 }
-fix="--gpu 1 --epochs 1 --data VOC2012 --grid 7"
+fix="--gpu 1 --epochs 40 --data VOC2012 --grid 7"
 
 #usage: vgg16.py
 # [-h] [--lr LR] [--grid GRID] [--epochs EPOCHS]
