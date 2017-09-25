@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-import os
+# import os
 from plot_result import plot_result
-os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device=gpu0,floatX=float32"
+# os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device=gpu0,floatX=float32"
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
