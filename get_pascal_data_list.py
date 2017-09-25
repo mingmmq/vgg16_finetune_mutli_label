@@ -57,7 +57,6 @@ def getCategoryDict(main_path):
     return d
 
 
-
 # annotation operations
 def load_annotation(anno_filename):
     with open(anno_filename) as f:
