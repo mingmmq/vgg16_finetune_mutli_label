@@ -16,13 +16,13 @@ save_images(){
 
 }
 
-theano_flag="set THEANO_FLAGS='mode=FAST_RUN,device=gpu1,floatX=float32'"
 
 #usage: vgg16.py
 # [-h] [--lr LR] [--grid GRID] [--epochs EPOCHS]
 # [--lw LW] [--rw RW] [--lf LF] [--af AF] [--data PV]
-text="--lr 1e-4 --epochs 40 --data VOC2012"
-$theano_flag python vgg16.py $text | tee log.out
+text="--lr 1e-4 --epochs 40 --data VOC2007"
+set THEANO_FLAGS='mode=FAST_RUN,device=gpu1,floatX=float32'
+python vgg16.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
 
