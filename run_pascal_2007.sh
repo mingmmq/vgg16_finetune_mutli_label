@@ -5,7 +5,7 @@ export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64:$LD_LIBRARY_PATH
 
 
 save_images(){
-    time_stamp=$(date +%Y_%m_%d_%H_%M_%S)
+    time_stamp=$(date +%Y_%m_%d_%H_%M_%S)$1
     mkdir $time_stamp
 
     #move the files to the folder as a record, with the time
@@ -18,6 +18,6 @@ save_images(){
     #todo: 1.check the general process
     #todo: 2.use the tee to put the output into the logs
 }
-para = "--lr 1e-4 --epochs 3 --pv VOC2007"
-python vgg16_pascal.py $para | tee log.out
-save_images
+
+python vgg16_pascal.py --lr 1e-4 --epochs 1 --pv VOC2007 | tee log.out
+save_images "--lr 1e-4 --epochs 1 --pv VOC2007"
