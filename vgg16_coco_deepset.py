@@ -283,6 +283,8 @@ def parse_arguments():
     pascal_version = args.pv if args.pv else "VOC2007"
     loss_function = _loss_tensor if args.lf else "binary_crossentropy"
 
+
+
 if __name__ == '__main__':
     parse_arguments()
     # Example to fine-tune on 3000 samples from Cifar10
@@ -319,7 +321,6 @@ if __name__ == '__main__':
     # Make predictions
     predictions_valid = model.predict(X_valid, batch_size=batch_size, verbose=1)
     print(predictions_valid)
-
 
     # Cross-entropy loss score
     score = log_loss(Y_valid, predictions_valid)

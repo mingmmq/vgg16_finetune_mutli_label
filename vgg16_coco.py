@@ -163,9 +163,9 @@ def vgg16_model(img_rows, img_cols, channel=1, num_labels=None):
     #    layer.trainable = False
 
     # Learning rate is changed to 0.001
-    sgd = SGD(lr=learning_rate, decay=1e-6, momentum=0.9, nesterov=True)
+    sgd = SGD(lr=parse_arguments.learning_rate, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(optimizer=sgd,
-                  loss=loss_function,
+                  loss=_loss_tensor if parse_arguments.use_custom_loss_function else "binary_crossentropy",
                   metrics=[acc, precision, recall, f1])
 
     return model
@@ -197,7 +197,7 @@ def _loss_tensor(y_true, y_pred):
     random_tensor = K.random_binomial(shape=shape, p= (shape[1]-max)/(shape[1]))
     n_true = K.clip(y_true + random_tensor, K.epsilon(), 1.0-K.epsilon())
 
-    out = -(y_true * K.log(y_pred) * left_weight + (1.0 - y_true) * K.log(1.0 - y_pred) * right_weight)
+    out = -(y_true * K.log(y_pred) * parse_arguments.left_weight + (1.0 - y_true) * K.log(1.0 - y_pred) * parse_arguments.right_weight)
     return K.mean(out, axis=-1)
 
 
@@ -251,36 +251,16 @@ class My_Callback(keras.callbacks.Callback):
               %(K.eval(pred_positive_rate), K.eval(precision), K.eval(recall), K.eval(accuracy), K.eval(K.mean(loss_original)), K.eval(K.mean(loss_now)) ,K.eval(sum_of_n_true), K.eval(sum_of_y_pred)))
         return
 
-def parse_arguments():
-    import argparse
-    global learning_rate
-    global grids_per_row
-    global nb_epoch
-    global left_weight
-    global right_weight
-    global loss_function
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--lr', help='learning rate')
-    parser.add_argument('--grid', help="grid per row and column")
-    parser.add_argument('--epochs', help="number of epochs")
-    parser.add_argument('--lw', help="left weight on the loss function")
-    parser.add_argument('--rw', help="right weight on the loss function")
-    parser.add_argument('--lf', help="loss function")
-    args = parser.parse_args()
 
 
-    learning_rate = float(args.lr) if args.lr else 0.01
-    grids_per_row = args.grid if args.grid else 7
-    nb_epoch = args.epochs if args.epochs else 60
-    left_weight = args.lw if args.lw else 1
-    right_weight = args.rw if args.rw else 1
-    loss_function = _loss_tensor if args.lf else "binary_crossentropy"
 
 if __name__ == '__main__':
 
     # Example to fine-tune on 3000 samples from Cifar10
-    parse_arguments()
+    import parse_arguments
+    parse_arguments.parse_arguments()
+
+
 
     img_rows, img_cols = 224, 224 # Resolution of inputs
     channel = 3
@@ -302,7 +282,7 @@ if __name__ == '__main__':
     # Start Fine-tuning
     history = model.fit(X_train, Y_train,
                         batch_size=batch_size,
-                        epochs=nb_epoch,
+                        epochs=parse_arguments.nb_epoch,
                         shuffle=True,
                         verbose=1,
                         validation_data=(X_valid, Y_valid),

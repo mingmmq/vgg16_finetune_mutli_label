@@ -6,11 +6,8 @@ from keras.models import Sequential
 from keras.optimizers import SGD
 from keras.layers import Input, Dense, Convolution2D, MaxPooling2D, AveragePooling2D, ZeroPadding2D, Dropout, Flatten, \
     merge, Reshape, Activation, Conv2D
-from keras import objectives
-
 from sklearn.metrics import log_loss
 
-from load_cifar10 import load_cifar10_data
 from load_pascal_deepset import  load_pascal_data
 import matplotlib
 
@@ -19,11 +16,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from keras import backend as K
 K.set_image_dim_ordering('th')
-_EPSILON = K.epsilon()
-import sklearn.metrics as skm
-import pdb
-
-
 
 def cus_acc(y_true, y_pred):
     true_positive = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
@@ -280,6 +272,15 @@ def parse_arguments():
     pascal_version = args.pv if args.pv else "VOC2007"
     loss_function = _loss_tensor if args.lf else "binary_crossentropy"
 
+    print("learning rate: ", learning_rate)
+    print("grids: ", grids_per_row)
+    print("number of epochs: ", nb_epoch)
+    print("pascal version", pascal_version)
+    print("cumstom function: ", loss_function)
+    print("loss left weight: ", left_weight)
+    print("loss right weight: ", right_weight)
+
+
 
 if __name__ == '__main__':
     #here to parse the arguments and run different experiments
@@ -322,36 +323,6 @@ if __name__ == '__main__':
     score = log_loss(Y_valid, predictions_valid)
     print(score)
 
-    # # summarize history for loss
-    plt.plot(history.history['loss'])
-    plt.plot(history.history['val_loss'])
-    plt.title('model loss')
-    plt.ylabel('loss')
-    plt.xlabel('epoch')
-    plt.legend(['train_loss', 'val_loss'], loc='upper left')
-    plt.show()
-    plt.savefig('losses.png')
-    plt.clf()
-
-    print(history.history)
-
-
-    plt.plot(history.history['precision'])
-    plt.plot(history.history['recall'])
-    plt.plot(history.history['f1'])
-    plt.title('train precision recall')
-    plt.ylabel('score')
-    plt.legend(['precision', 'recall', 'f1'], loc='upper left')
-    plt.show()
-    plt.savefig('train_precision_recall.png')
-    plt.clf()
-
-    plt.plot(history.history['val_precision'])
-    plt.plot(history.history['val_recall'])
-    plt.plot(history.history['val_f1'])
-    plt.title('val precision recall')
-    plt.ylabel('score')
-    plt.legend(['precision', 'recall', 'f1'], loc='upper left')
-    plt.show()
-    plt.savefig('val_precision_recall.png')
-    plt.clf()
+    # plot the results
+    from plot_result import plot_result
+    plot_result(plt, history)
