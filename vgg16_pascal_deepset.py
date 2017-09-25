@@ -196,7 +196,6 @@ def _loss_tensor(y_true, y_pred):
 
 class My_Callback(keras.callbacks.Callback):
     def __init__(self, validation_data):
-        super().__init__()
         self.validation_data = validation_data
 
     def on_epoch_end(self, batch, logs=None):
