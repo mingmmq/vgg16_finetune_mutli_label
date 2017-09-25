@@ -274,10 +274,20 @@ if __name__ == '__main__':
     if "VOC" not in pa.dataset:
         image_path = "../coco/"
         base_labels = 90
-        X_train, Y_train, X_valid, Y_valid = load_coco_data(image_path)
+        if pa.grids_per_row != 1:
+            from load_coco_deepset import load_coco_data
+            X_train, Y_train, X_valid, Y_valid = load_coco_data(image_path)
+        else:
+            from load_coco import load_coco_data
+            X_train, Y_train, X_valid, Y_valid = load_coco_data(image_path)
     else:
         base_labels = 20
-        X_train, Y_train, X_valid, Y_valid = load_pascal_data(pa.dataset)
+        if pa.grids_per_row != 1:
+            from load_pascal_deepset import  load_pascal_data
+            X_train, Y_train, X_valid, Y_valid = load_pascal_data(pa.dataset)
+        else:
+            from load_pascal import  load_pascal_data
+            X_train, Y_train, X_valid, Y_valid = load_pascal_data(pa.dataset)
 
     num_labels = base_labels * pa.grids_per_row * pa.grids_per_row
 
