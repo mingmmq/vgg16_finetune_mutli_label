@@ -16,7 +16,7 @@ save_images(){
 
 }
 
-theano_flag="THEANO_FLAGS=mode=FAST_RUN,device=gpu1,floatX=float32"
+theano_flag="set THEANO_FLAGS='mode=FAST_RUN,device=gpu1,floatX=float32'"
 
 #usage: vgg16.py
 # [-h] [--lr LR] [--grid GRID] [--epochs EPOCHS]
