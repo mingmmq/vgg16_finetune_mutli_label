@@ -12,8 +12,9 @@ save_images(){
     mv losses.png ./reports/$time_stamp/
     mv train_precision_recall.png ./reports/$time_stamp/
     mv val_precision_recall.png ./reports/$time_stamp/
-    mv log.out ./reports/$time_stamp/
-
+    mv acc_1.png ./reports/$time_stamp/
+    mv acc_2.png ./reports/$time_stamp/
+    mv 2007deep.out ./reports/$time_stamp/
 }
 
 
@@ -25,54 +26,54 @@ fix="--gpu 0 --epochs 40 --data VOC2007 --grid 7"
 
 #change to see the different learning rate
 text="--lr 1e-3 "
-python vgg16.py $text $fix | tee log.out
+python vgg16.py $text $fix | tee 2007deep.out
 para=$(echo $text $fix | tr -d ' ')
 save_images $para
 
 text="--lr 1e-3 --lf yes"
-python vgg16.py $text $fix | tee log.out
+python vgg16.py $text $fix | tee 2007deep.out
 para=$(echo $text $fix | tr -d ' ')
 save_images $para
 
 text="--lr 1e-3 --lf yes --lw 300"
-python vgg16.py $text $fix | tee log.out
+python vgg16.py $text $fix | tee 2007deep.out
 para=$(echo $text $fix | tr -d ' ')
 save_images $para
 
 text="--lr 1e-3 --lf yes --rw 300"
-python vgg16.py $text $fix | tee log.out
+python vgg16.py $text $fix | tee 2007deep.out
 para=$(echo $text $fix | tr -d ' ')
 save_images $para
 
 text="--lr 1e-3 --lf yes --lf 300 --rw 300"
-python vgg16.py $text $fix | tee log.out
+python vgg16.py $text $fix | tee 2007deep.out
 para=$(echo $text $fix | tr -d ' ')
 save_images $para
 
 
 text="--lr 1e-4 "
-python vgg16.py $text $fix | tee log.out
+python vgg16.py $text $fix | tee 2007deep.out
 para=$(echo $text $fix | tr -d ' ')
 save_images $para
 
 #custom loss function with default weights
 text="--lr 1e-4 --lf yes"
-python vgg16.py $text $fix | tee log.out
+python vgg16.py $text $fix | tee 2007deep.out
 para=$(echo $text $fix | tr -d ' ')
 save_images $para
 
 text="--lr 1e-4 --lf yes --lw 300"
-python vgg16.py $text $fix | tee log.out
+python vgg16.py $text $fix | tee 2007deep.out
 para=$(echo $text $fix | tr -d ' ')
 save_images $para
 
 text="--lr 1e-4 --lf yes --rw 300"
-python vgg16.py $text $fix | tee log.out
+python vgg16.py $text $fix | tee 2007deep.out
 para=$(echo $text $fix | tr -d ' ')
 save_images $para
 
 text="--lr 1e-4 --lf yes --lf 300 --rw 300"
-python vgg16.py $text $fix | tee log.out
+python vgg16.py $text $fix | tee 2007deep.out
 para=$(echo $text $fix | tr -d ' ')
 save_images $para
 
