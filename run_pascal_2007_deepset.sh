@@ -17,11 +17,39 @@ save_images(){
 }
 
 
-fix="--gpu 1 --epochs 1 --data VOC2007 --grid 7"
+fix="--gpu 0 --epochs 40 --data VOC2007 --grid 7"
 
 #usage: vgg16.py
 # [-h] [--lr LR] [--grid GRID] [--epochs EPOCHS]
 # [--lw LW] [--rw RW] [--lf LF] [--af AF] [--data PV]
+
+#change to see the different learning rate
+text="--lr 1e-3 "
+python vgg16.py $text $fix | tee log.out
+para=$(echo $text $fix | tr -d ' ')
+save_images $para
+
+text="--lr 1e-3 --lf yes"
+python vgg16.py $text $fix | tee log.out
+para=$(echo $text $fix | tr -d ' ')
+save_images $para
+
+text="--lr 1e-3 --lf yes --lw 300"
+python vgg16.py $text $fix | tee log.out
+para=$(echo $text $fix | tr -d ' ')
+save_images $para
+
+text="--lr 1e-3 --lf yes --rw 300"
+python vgg16.py $text $fix | tee log.out
+para=$(echo $text $fix | tr -d ' ')
+save_images $para
+
+text="--lr 1e-3 --lf yes --lf 300 --rw 300"
+python vgg16.py $text $fix | tee log.out
+para=$(echo $text $fix | tr -d ' ')
+save_images $para
+
+
 text="--lr 1e-4 "
 python vgg16.py $text $fix | tee log.out
 para=$(echo $text $fix | tr -d ' ')
@@ -49,28 +77,3 @@ para=$(echo $text $fix | tr -d ' ')
 save_images $para
 
 
-#change to see the different learning rate
-text="--lr 1e-3 "
-python vgg16.py $text $fix | tee log.out
-para=$(echo $text $fix | tr -d ' ')
-save_images $para
-
-text="--lr 1e-3 --lf yes"
-python vgg16.py $text $fix | tee log.out
-para=$(echo $text $fix | tr -d ' ')
-save_images $para
-
-text="--lr 1e-3 --lf yes --lw 300"
-python vgg16.py $text $fix | tee log.out
-para=$(echo $text $fix | tr -d ' ')
-save_images $para
-
-text="--lr 1e-3 --lf yes --rw 300"
-python vgg16.py $text $fix | tee log.out
-para=$(echo $text $fix | tr -d ' ')
-save_images $para
-
-text="--lr 1e-3 --lf yes --lf 300 --rw 300"
-python vgg16.py $text $fix | tee log.out
-para=$(echo $text $fix | tr -d ' ')
-save_images $para
