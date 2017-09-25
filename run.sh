@@ -6,7 +6,7 @@ export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64:$LD_LIBRARY_PATH
 
 save_images(){
     time_stamp=$(date +%Y_%m_%d_%H_%M_%S)$1
-    mkdir $time_stamp
+    mkdir ./reports/$time_stamp
 
     #move the files to the folder as a record, with the time
     #done: should extract some configuration from the script and name the folder with the difference configuration
