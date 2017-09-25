@@ -8,7 +8,7 @@ def load_data(version=""):
     if version == "":
         print("data_path required: VOC2012 or VOC2007")
         exit()
-    path = "/".join(["data/VOCdevkit", version])
+    path = "/".join(["../pascal/VOCdevkit", version])
     (x_train, y_train) = load_data_by_type(path, "train")
     (x_test, y_test)  = load_data_by_type(path, "val")
 
