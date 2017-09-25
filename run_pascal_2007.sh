@@ -20,4 +20,4 @@ save_images(){
 }
 
 python vgg16_pascal.py --lr 1e-4 --epochs 1 --pv VOC2007 | tee log.out
-save_images "--lr 1e-4 --epochs 1 --pv VOC2007"
+save_images "test"
