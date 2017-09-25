@@ -19,5 +19,5 @@ save_images(){
     #todo: 2.use the tee to put the output into the logs
 }
 
-python vgg16_pascal.py --lr 1e-4 --epochs 1 -pv 2007 | tee log.out
+python vgg16_pascal.py --lr 1e-4 --epochs 1 --pv 2007 | tee log.out
 save_images
