@@ -4,17 +4,15 @@ os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device=gpu0,floatX=float32"
 import keras
 from keras.models import Sequential
 from keras.optimizers import SGD
-from keras.layers import Input, Dense, Convolution2D, MaxPooling2D, AveragePooling2D, ZeroPadding2D, Dropout, Flatten, merge, Reshape, Activation
+from keras.layers import  Dense,  MaxPooling2D,  ZeroPadding2D, Dropout, Flatten, \
+       Conv2D
 from sklearn.metrics import log_loss
-from load_cifar10 import load_cifar10_data
 from load_pascal import load_pascal_data
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import numpy as np
 from keras import backend as K
 K.set_image_dim_ordering('th')
-import sklearn.metrics as skm
 from plot_result import plot_result
 
 
@@ -78,55 +76,56 @@ def f1(y_true, y_pred):
     recall = recall(y_true, y_pred)
     return 2*((precision*recall)/(precision+recall))
 
-def vgg16_model(img_rows, img_cols, channel=1, num_classes=None):
+
+def vgg16_model(img_rows, img_cols, channel=1, num_labels=None):
     """VGG 16 Model for Keras
 
-    Model Schema is based on 
+    Model Schema is based on
     https://gist.github.com/baraldilorenzo/07d7802847aaad0a35d3
 
-    ImageNet Pretrained Weights 
+    ImageNet Pretrained Weights
     https://drive.google.com/file/d/0Bz7KyqmuGsilT0J5dmRCM0ROVHc/view?usp=sharing
 
     Parameters:
       img_rows, img_cols - resolution of inputs
-      channel - 1 for grayscale, 3 for color 
+      channel - 1 for grayscale, 3 for color
       num_classes - number of categories for our classification task
     """
     model = Sequential()
     model.add(ZeroPadding2D((1, 1), input_shape=(channel, img_rows, img_cols)))
-    model.add(Convolution2D(64, 3, 3, activation='relu'))
+    model.add(Conv2D(64, (3, 3), activation='relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(64, 3, 3, activation='relu'))
+    model.add(Conv2D(64, (3, 3), activation='relu'))
     model.add(MaxPooling2D((2, 2), strides=(2, 2)))
 
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(128, 3, 3, activation='relu'))
+    model.add(Conv2D(128, (3, 3), activation='relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(128, 3, 3, activation='relu'))
+    model.add(Conv2D(128, (3, 3), activation='relu'))
     model.add(MaxPooling2D((2, 2), strides=(2, 2)))
 
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(256, 3, 3, activation='relu'))
+    model.add(Conv2D(256, (3, 3), activation='relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(256, 3, 3, activation='relu'))
+    model.add(Conv2D(256, (3, 3), activation='relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(256, 3, 3, activation='relu'))
+    model.add(Conv2D(256, (3, 3), activation='relu'))
     model.add(MaxPooling2D((2, 2), strides=(2, 2)))
 
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(512, 3, 3, activation='relu'))
+    model.add(Conv2D(512, (3, 3), activation='relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(512, 3, 3, activation='relu'))
+    model.add(Conv2D(512, (3, 3), activation='relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(512, 3, 3, activation='relu'))
+    model.add(Conv2D(512, (3, 3), activation='relu'))
     model.add(MaxPooling2D((2, 2), strides=(2, 2)))
 
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(512, 3, 3, activation='relu'))
+    model.add(Conv2D(512, (3, 3), activation='relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(512, 3, 3, activation='relu'))
+    model.add(Conv2D(512, (3, 3), activation='relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(512, 3, 3, activation='relu'))
+    model.add(Conv2D(512, (3, 3), activation='relu'))
     model.add(MaxPooling2D((2, 2), strides=(2, 2)))
 
     # Add Fully Connected Layer
@@ -146,7 +145,7 @@ def vgg16_model(img_rows, img_cols, channel=1, num_classes=None):
     #     layer.trainable = False
     model.outputs = [model.layers[-1].output]
     model.layers[-1].outbound_nodes = []
-    model.add(Dense(num_classes, activation='sigmoid'))
+    model.add(Dense(num_labels, activation='sigmoid'))
 
     # Uncomment below to set the first 10 layers to non-trainable (weights will not be updated)
     #for layer in model.layers[:10]:
@@ -156,11 +155,8 @@ def vgg16_model(img_rows, img_cols, channel=1, num_classes=None):
     sgd = SGD(lr=pa.learning_rate, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(optimizer=sgd,
                   loss= _loss_tensor if pa.use_custom_loss_function else "binary_crossentropy",
-                  metrics=[acc if pa.use_custom_accuracy_function else 'accuracy',
-                           'accuracy',
-                           precision,
-                           recall,
-                           f1])
+                  metrics=['accuracy',acc,
+                           precision, recall, f1])
 
     return model
 
@@ -178,6 +174,7 @@ def _loss_tensor(y_true, y_pred):
 
 class My_Callback(keras.callbacks.Callback):
     def __init__(self, validation_data):
+        super().__init__()
         self.validation_data = validation_data
 
 

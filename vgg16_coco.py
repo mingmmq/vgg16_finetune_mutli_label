@@ -163,10 +163,14 @@ def vgg16_model(img_rows, img_cols, channel=1, num_labels=None):
     #    layer.trainable = False
 
     # Learning rate is changed to 0.001
-    sgd = SGD(lr=parse_arguments.learning_rate, decay=1e-6, momentum=0.9, nesterov=True)
+    sgd = SGD(lr=pa.learning_rate, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(optimizer=sgd,
-                  loss=_loss_tensor if parse_arguments.use_custom_loss_function else "binary_crossentropy",
-                  metrics=[acc, precision, recall, f1])
+                  loss=_loss_tensor if pa.use_custom_loss_function else "binary_crossentropy",
+                  metrics=[
+                           'accuracy',acc,
+                           precision,
+                           recall,
+                           f1])
 
     return model
 
@@ -197,7 +201,7 @@ def _loss_tensor(y_true, y_pred):
     random_tensor = K.random_binomial(shape=shape, p= (shape[1]-max)/(shape[1]))
     n_true = K.clip(y_true + random_tensor, K.epsilon(), 1.0-K.epsilon())
 
-    out = -(y_true * K.log(y_pred) * parse_arguments.left_weight + (1.0 - y_true) * K.log(1.0 - y_pred) * parse_arguments.right_weight)
+    out = -(y_true * K.log(y_pred) * pa.left_weight + (1.0 - y_true) * K.log(1.0 - y_pred) * pa.right_weight)
     return K.mean(out, axis=-1)
 
 
@@ -257,8 +261,8 @@ class My_Callback(keras.callbacks.Callback):
 if __name__ == '__main__':
 
     # Example to fine-tune on 3000 samples from Cifar10
-    import parse_arguments
-    parse_arguments.parse_arguments()
+    import parse_arguments as pa
+    pa.parse_arguments()
 
 
 
@@ -282,7 +286,7 @@ if __name__ == '__main__':
     # Start Fine-tuning
     history = model.fit(X_train, Y_train,
                         batch_size=batch_size,
-                        epochs=parse_arguments.nb_epoch,
+                        epochs=pa.nb_epoch,
                         shuffle=True,
                         verbose=1,
                         validation_data=(X_valid, Y_valid),

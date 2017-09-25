@@ -40,7 +40,7 @@ python vgg16_pascal.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
 
-text="--lr 1e-4 --epochs 1 --pv VOC2007 --lf yes --lf 300 -rw 300"
+text="--lr 1e-4 --epochs 1 --pv VOC2007 --lf yes --lf 300 --rw 300"
 python vgg16_pascal.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
@@ -67,7 +67,7 @@ python vgg16_pascal.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para
 
-text="--lr 1e-3 --epochs 1 --pv VOC2007 --lf yes --lf 300 -rw 300"
+text="--lr 1e-3 --epochs 1 --pv VOC2007 --lf yes --lf 300 --rw 300"
 python vgg16_pascal.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para

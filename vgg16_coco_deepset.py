@@ -89,15 +89,15 @@ def acc(y_true, y_pred):
 def vgg16_model(img_rows, img_cols, channel=1, num_labels=None):
     """VGG 16 Model for Keras
 
-    Model Schema is based on 
+    Model Schema is based on
     https://gist.github.com/baraldilorenzo/07d7802847aaad0a35d3
 
-    ImageNet Pretrained Weights 
+    ImageNet Pretrained Weights
     https://drive.google.com/file/d/0Bz7KyqmuGsilT0J5dmRCM0ROVHc/view?usp=sharing
 
     Parameters:
       img_rows, img_cols - resolution of inputs
-      channel - 1 for grayscale, 3 for color 
+      channel - 1 for grayscale, 3 for color
       num_classes - number of categories for our classification task
     """
     model = Sequential()
@@ -164,8 +164,7 @@ def vgg16_model(img_rows, img_cols, channel=1, num_labels=None):
     sgd = SGD(lr=pa.learning_rate, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(optimizer=sgd,
                   loss= _loss_tensor if pa.use_custom_loss_function else "binary_crossentropy",
-                  metrics=[acc,
-                           'accuracy',
+                  metrics=['accuracy',acc,
                            precision, recall, f1])
 
     return model

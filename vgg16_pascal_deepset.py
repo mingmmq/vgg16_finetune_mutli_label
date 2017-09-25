@@ -4,8 +4,8 @@ os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device=gpu0,floatX=float32"
 import keras
 from keras.models import Sequential
 from keras.optimizers import SGD
-from keras.layers import Input, Dense, Convolution2D, MaxPooling2D, AveragePooling2D, ZeroPadding2D, Dropout, Flatten, \
-    merge, Reshape, Activation, Conv2D
+from keras.layers import Input, Dense,  MaxPooling2D,  ZeroPadding2D, Dropout, Flatten, \
+       Conv2D
 from sklearn.metrics import log_loss
 
 from load_pascal_deepset import  load_pascal_data
@@ -196,6 +196,7 @@ def _loss_tensor(y_true, y_pred):
 
 class My_Callback(keras.callbacks.Callback):
     def __init__(self, validation_data):
+        super().__init__()
         self.validation_data = validation_data
 
     def on_epoch_end(self, batch, logs=None):
