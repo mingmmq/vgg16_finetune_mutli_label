@@ -157,7 +157,10 @@ def vgg16_model(img_rows, img_cols, channel=1, num_classes=None):
     model.compile(optimizer=sgd,
                   loss= _loss_tensor if pa.use_custom_loss_function else "binary_crossentropy",
                   metrics=[acc if pa.use_custom_accuracy_function else 'accuracy',
-                           precision, recall, f1])
+                           'accuracy',
+                           precision,
+                           recall,
+                           f1])
 
     return model
 
@@ -237,7 +240,7 @@ if __name__ == '__main__':
               shuffle=True,
               verbose=1,
               validation_data=(X_valid, Y_valid),
-                callbacks=[callback],
+              callbacks=[callback],
               )
 
     model.save_weights('trained_model.h5')

@@ -19,7 +19,55 @@ save_images(){
     #todo: 2.use the tee to put the output into the logs
 }
 
-text="--lr 1e-4 --epochs 2 --pv VOC2007"
+text="--lr 1e-4 --epochs 40 --pv VOC2007"
+python vgg16_pascal.py $text | tee log.out
+para=$(echo $text | tr -d ' ')
+save_images $para
+
+#custom loss function with default weights
+text="--lr 1e-4 --epochs 40 --pv VOC2007 --lf yes"
+python vgg16_pascal.py $text | tee log.out
+para=$(echo $text | tr -d ' ')
+save_images $para
+
+text="--lr 1e-4 --epochs 40 --pv VOC2007 --lf yes --lw 300"
+python vgg16_pascal.py $text | tee log.out
+para=$(echo $text | tr -d ' ')
+save_images $para
+
+text="--lr 1e-4 --epochs 40 --pv VOC2007 --lf yes --rw 300"
+python vgg16_pascal.py $text | tee log.out
+para=$(echo $text | tr -d ' ')
+save_images $para
+
+text="--lr 1e-4 --epochs 40 --pv VOC2007 --lf yes --lf 300 -rw 300"
+python vgg16_pascal.py $text | tee log.out
+para=$(echo $text | tr -d ' ')
+save_images $para
+
+
+#change to see the different learning rate
+text="--lr 1e-3 --epochs 40 --pv VOC2007"
+python vgg16_pascal.py $text | tee log.out
+para=$(echo $text | tr -d ' ')
+save_images $para
+
+text="--lr 1e-3 --epochs 40 --pv VOC2007 --lf yes"
+python vgg16_pascal.py $text | tee log.out
+para=$(echo $text | tr -d ' ')
+save_images $para
+
+text="--lr 1e-3 --epochs 40 --pv VOC2007 --lf yes --lw 300"
+python vgg16_pascal.py $text | tee log.out
+para=$(echo $text | tr -d ' ')
+save_images $para
+
+text="--lr 1e-3 --epochs 40 --pv VOC2007 --lf yes --rw 300"
+python vgg16_pascal.py $text | tee log.out
+para=$(echo $text | tr -d ' ')
+save_images $para
+
+text="--lr 1e-3 --epochs 40 --pv VOC2007 --lf yes --lf 300 -rw 300"
 python vgg16_pascal.py $text | tee log.out
 para=$(echo $text | tr -d ' ')
 save_images $para

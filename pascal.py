@@ -39,9 +39,9 @@ def load_data_by_type(path, type):
         # #next two lines are used for filter out those only with one label
         # if len(data[key]) > 1:
         #     continue
-        # if num_train_samples == 64:
-        #     break
-
+        if num_train_samples == 16:
+            break
+        #
         num_train_samples += 1
     # num_train_samples = len(data.keys())
     # num_train_samples = 32
