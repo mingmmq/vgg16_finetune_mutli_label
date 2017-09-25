@@ -11,18 +11,26 @@ def plot_result(plt, history):
     plt.clf()
 
     # # summarize history for accuracy
-    plt.plot(history.history['acc'])
-    plt.plot(history.history['val_acc'])
+    plt.plot(history.history['acc_1'])
+    plt.plot(history.history['val_acc_1'])
     plt.title('model accuracy')
     plt.ylabel('acc')
     plt.xlabel('epoch')
     plt.legend(['train_acc', 'val_acc'], loc='upper left')
     plt.show()
-    plt.savefig('acc.png')
+    plt.savefig('acc_1.png')
     plt.clf()
 
-    print(history.history)
-
+    # # summarize history for accuracy customized
+    plt.plot(history.history['acc_2'])
+    plt.plot(history.history['val_acc_2'])
+    plt.title('model accuracy')
+    plt.ylabel('acc')
+    plt.xlabel('epoch')
+    plt.legend(['train_acc', 'val_acc'], loc='upper left')
+    plt.show()
+    plt.savefig('acc_2.png')
+    plt.clf()
 
     plt.plot(history.history['precision'])
     plt.plot(history.history['recall'])
