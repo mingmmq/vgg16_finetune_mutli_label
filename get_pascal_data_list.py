@@ -219,9 +219,9 @@ def getImageAndAnnotations(path, last_name, grid_rows):
         objects_count += obj_pos.__len__()
 
         # this part is for showing only the 10 items
-        if count == 16:
-            break
-        count += 1
+        # if count == 16:
+        #     break
+        # count += 1
 
 
     print("total objects: ", objects_count)
