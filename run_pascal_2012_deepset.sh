@@ -27,11 +27,11 @@ fix="--gpu 1 --epochs 20 --data VOC2012 --grid 7"
 #para=$(echo $text $fix | tr -d ' ')
 #save_images $para
 
-text="--lr 1e-3 --lf yes --lw 10"
-python vgg16.py $text $fix | tee 2012deep.out
-para=$(echo $text $fix | tr -d ' ')
-save_images $para
-mv 2012deep.out $?
+#text="--lr 1e-3 --lf yes --lw 10"
+#python vgg16.py $text $fix | tee 2012deep.out
+#para=$(echo $text $fix | tr -d ' ')
+#save_images $para
+#mv 2012deep.out $?
 
 
 text="--lr 1e-3 --lf yes --lw 50"
