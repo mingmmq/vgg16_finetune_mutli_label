@@ -100,10 +100,10 @@ def load_data_by_type(path, type, grid_rows):
             num_samples += 1
             filtered_data[image_id] = img_info
 
-            if num_samples == 16:
-                break
+            # if num_samples == 16:
+            #     break
+    #
 
-    # num_train_samples = len(data.keys())
     # num_train_samples = 32
 
     print(num_samples)
