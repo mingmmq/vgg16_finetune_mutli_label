@@ -4,19 +4,18 @@ import get_pascal_data_list as pascal_dict
 import numpy as np
 import cv2
 
-def load_data(version=""):
+def load_data(version="", grid_rows=7):
     if version == "":
         print("data_path required: VOC2012 or VOC2007")
         exit()
     path = "/".join(["../pascal/VOCdevkit", version])
-    (x_train, y_train) = load_data_by_type(path, "train")
-    (x_test, y_test)  = load_data_by_type(path, "val")
+    (x_train, y_train) = load_data_by_type(path, "train", grid_rows)
+    (x_test, y_test)  = load_data_by_type(path, "val", grid_rows)
 
     return (x_train, y_train), (x_test, y_test)
 
-def load_data_by_type(path, type):
+def load_data_by_type(path, type, grid_rows):
     #this is used the set the grid line numbers, and the rejected images are listed by another program
-    grid_rows = 7
     if type == "train":
         data = pascal_dict.getImageAndAnnotations(path, '_train.txt', grid_rows)
     else:

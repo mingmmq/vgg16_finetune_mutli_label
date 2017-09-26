@@ -8,6 +8,7 @@ save_images(){
     mv losses.png ./reports/$time_stamp/
     mv train_precision_recall.png ./reports/$time_stamp/
     mv val_precision_recall.png ./reports/$time_stamp/
-    mv log.out ./reports/$time_stamp/
+    mv acc_1.png ./reports/$time_stamp/
+    mv acc_2.png ./reports/$time_stamp/
 
 }

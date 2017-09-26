@@ -20,12 +20,12 @@ def show_image(image_data, lables=""):
     draw.text((0, 0), lables, (255, 255, 0), font=font)
     img.show()
 
-def load_data(image_path=""):
+def load_data(image_path="", grid_rows=7):
     if image_path == "":
         print("data_path required: coco image path required")
         exit()
-    (x_train, y_train) = load_data_by_type(image_path, "train")
-    (x_test, y_test)  = load_data_by_type(image_path, "val")
+    (x_train, y_train) = load_data_by_type(image_path, "train", grid_rows)
+    (x_test, y_test)  = load_data_by_type(image_path, "val", grid_rows)
 
     return (x_train, y_train), (x_test, y_test)
 
@@ -45,7 +45,7 @@ def check_in_the_same_grid(points, dim):
 
     return False
 
-def check_grid(coco, img, dim):
+def pass_grid_check(coco, img, dim):
     annIds = coco.getAnnIds(imgIds=img['id'], iscrowd=None)
     anns = coco.loadAnns(annIds)
 
@@ -82,9 +82,8 @@ def check_grid(coco, img, dim):
     # print "no objects in the same grid"
     return True
 
-def load_data_by_type(path, type):
+def load_data_by_type(path, type, grid_rows):
     #this is used the set the grid line numbers, and the rejected images are listed by another program
-    grid_rows = 4
     if type == "train":
         type_path = "train2014"
     else:
@@ -94,15 +93,15 @@ def load_data_by_type(path, type):
     data = coco.imgs
 
     num_samples = 0
+    filtered_data = {}
     for image_id, img_info in data.items():
         # #next two lines are used for filter out those only with one label
-        # if len(data[key]) > 1:
-        #     continue
-        if check_grid(coco, img_info, grid_rows):
+        if pass_grid_check(coco, img_info, grid_rows):
             num_samples += 1
-            accept = True
-        else:
-            accept = False
+            filtered_data[image_id] = img_info
+
+            if num_samples == 16:
+                break
 
     # num_train_samples = len(data.keys())
     # num_train_samples = 32
@@ -117,13 +116,13 @@ def load_data_by_type(path, type):
 
     # In what order will the key be iterated? the order in linux is different from in macos
     files = []
-    for image_id, img_info in data.items():
+    for image_id, img_info in filtered_data.items():
         # #for one label only image for testing
         # if len(data[key]) > 1:
         #     continue
 
-        if check_grid(coco, img_info, grid_rows):
-            num_samples += 1
+        if pass_grid_check(coco, img_info, grid_rows):
+            pass
         else:
             continue
 
