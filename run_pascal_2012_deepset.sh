@@ -9,7 +9,7 @@ source ./save_images.sh
 
 
 
-fix="--gpu 1 --epochs 20 --data VOC2012 --grid 7"
+fix="--gpu 1 --epochs 40 --data VOC2012 --grid 7"
 
 #usage: vgg16.py
 # [-h] [--lr LR] [--grid GRID] [--epochs EPOCHS]
@@ -34,23 +34,29 @@ fix="--gpu 1 --epochs 20 --data VOC2012 --grid 7"
 #mv 2012deep.out $?
 
 
-text="--lr 1e-3 --lf yes --lw 50"
+text="--lr 1e-3 --lf yes --lw 16"
 python vgg16.py $text $fix | tee 2012deep.out
 para=$(echo $text $fix | tr -d ' ')
-save_images $para
-mv 2012deep.out $?
+dst=$(save_images $para)
+mv 2012deep.out $dst
 
-text="--lr 1e-3 --lf yes --lw 100"
+text="--lr 1e-3 --lf yes --lw 17"
 python vgg16.py $text $fix | tee 2012deep.out
 para=$(echo $text $fix | tr -d ' ')
-save_images $para
-mv 2012deep.out $?
+dst=$(save_images $para)
+mv 2012deep.out $dst
 
-text="--lr 1e-3 --lf yes --lw 200"
+text="--lr 1e-3 --lf yes --lw 18"
 python vgg16.py $text $fix | tee 2012deep.out
 para=$(echo $text $fix | tr -d ' ')
-save_images $para
-mv 2012deep.out $?
+dst=$(save_images $para)
+mv 2012deep.out $dst
+
+text="--lr 1e-3 --lf yes --lw 19"
+python vgg16.py $text $fix | tee 2012deep.out
+para=$(echo $text $fix | tr -d ' ')
+dst=$(save_images $para)
+mv 2012deep.out $dst
 
 #
 #text="--lr 1e-3 --lf yes --rw 300"
