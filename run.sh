@@ -5,14 +5,14 @@ export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64:$LD_LIBRARY_PATH
 
 source ./save_images.sh
 
-#fix="--gpu 1 --epochs 1 --data VOC2007"
+fix="--gpu 1 --epochs 1 --data VOC2007"
 
 ##usage: vgg16.py
 ## [-h] [--lr LR] [--grid GRID] [--epochs EPOCHS]
 ## [--lw LW] [--rw RW] [--lf LF] [--af AF] [--data PV]
 #text="--lr 1e-4 "
 #python vgg16.py $text $fix | tee log.out
-#para=$(echo $text $fix | tr -d ' ')
+para=$(echo $text $fix | tr -d ' ')
 save_images $para
 mv log.out $?
 
