@@ -9,7 +9,7 @@ source ./save_images.sh
 
 
 
-fix="--gpu 1 --epochs 40 --data VOC2012 --grid 7"
+fix="--gpu 0 --epochs 40 --data VOC2012 --grid 7"
 
 #usage: vgg16.py
 # [-h] [--lr LR] [--grid GRID] [--epochs EPOCHS]
