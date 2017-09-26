@@ -62,7 +62,7 @@ def load_annotation(anno_filename):
 def get_image_list(main_path, last_name):
 
     image_files_name_path = "/".join([main_path, last_name[1:]])
-    print(image_files_name_path)
+    # print(image_files_name_path)
     with open(image_files_name_path) as f:
         image_names = f.read().splitlines()
     return image_names
