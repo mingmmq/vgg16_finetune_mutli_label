@@ -11,5 +11,5 @@ save_images(){
     mv acc_1.png ./reports/$time_stamp/
     mv acc_2.png ./reports/$time_stamp/
 
-    return ./reports/$time_stamp/
+    echo ./reports/$time_stamp/
 }

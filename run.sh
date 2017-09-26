@@ -13,8 +13,8 @@ fix="--gpu 1 --epochs 1 --data VOC2007"
 #text="--lr 1e-4 "
 #python vgg16.py $text $fix | tee log.out
 para=$(echo $text $fix | tr -d ' ')
-save_images $para
-mv log.out $?
+dst=$(save_images $para)
+mv log.out $dst
 
 ##custom loss function with default weights
 #text="--lr 1e-4 --lf yes"
