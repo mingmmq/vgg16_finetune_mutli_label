@@ -206,9 +206,10 @@ def getImageAndAnnotations(path, last_name, grid_rows):
     for image in image_list:
 
         if not pass_grid_check(path, image, grid_rows):
-            # print(image)
             # draw_image(path, image, grid_rows)
             continue
+
+        print(image)
 
         anno_filepath = "/".join([path, "Annotations", image+".xml"])
         anno = load_annotation(anno_filepath)
@@ -218,9 +219,9 @@ def getImageAndAnnotations(path, last_name, grid_rows):
         objects_count += obj_pos.__len__()
 
         # this part is for showing only the 10 items
-        # if count == 1023:
-        #     break
-        # count += 1
+        if count == 16:
+            break
+        count += 1
 
 
     print("total objects: ", objects_count)

@@ -4,18 +4,7 @@ export PATH=/usr/local/cuda-8.0/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64:$LD_LIBRARY_PATH
 
 
-save_images(){
-    time_stamp=$(date +%Y_%m_%d_%H_%M_%S)$1
-    mkdir ./reports/$time_stamp
-
-    #move the files to the folder as a record, with the time
-    mv losses.png ./reports/$time_stamp/
-    mv train_precision_recall.png ./reports/$time_stamp/
-    mv val_precision_recall.png ./reports/$time_stamp/
-    mv acc_1.png ./reports/$time_stamp/
-    mv acc_2.png ./reports/$time_stamp/
-    mv 2007deep.out ./reports/$time_stamp/
-}
+source ./save_images.sh
 
 
 fix="--gpu 0 --epochs 40 --data VOC2007 --grid 7"
@@ -45,7 +34,7 @@ python vgg16.py $text $fix | tee 2007deep.out
 para=$(echo $text $fix | tr -d ' ')
 save_images $para
 
-text="--lr 1e-3 --lf yes --lf 300 --rw 300"
+text="--lr 1e-3 --lf yes --lw 300 --rw 300"
 python vgg16.py $text $fix | tee 2007deep.out
 para=$(echo $text $fix | tr -d ' ')
 save_images $para
@@ -72,7 +61,7 @@ python vgg16.py $text $fix | tee 2007deep.out
 para=$(echo $text $fix | tr -d ' ')
 save_images $para
 
-text="--lr 1e-4 --lf yes --lf 300 --rw 300"
+text="--lr 1e-4 --lf yes --lw 300 --rw 300"
 python vgg16.py $text $fix | tee 2007deep.out
 para=$(echo $text $fix | tr -d ' ')
 save_images $para
