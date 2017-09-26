@@ -32,7 +32,7 @@ fix="--gpu 0 --epochs 10 --data COCO --grid 7"
 #para=$(echo $text $fix | tr -d ' ')
 #save_images $para
 
-text="--lr 1e-3 --lf yes --rw 300"
+text="--lr 1e-3 --lf yes --rw 25"
 python vgg16.py $text $fix | tee coco.out
 para=$(echo $text $fix | tr -d ' ')
 save_images $para
