@@ -6,6 +6,7 @@ export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64:$LD_LIBRARY_PATH
 
 source ./save_images.sh
 
+
 #usage: vgg16_pascal_deepset.py
 # [-h] [--lr LR] [--grid GRID] [--epochs EPOCHS]
 # [--lw LW] [--rw RW] [--lf LF] [--af AF] [--data PV]
@@ -34,6 +35,8 @@ text="--lr 1e-3 --lf yes --rw 300"
 python vgg16.py $text $fix | tee coco.out
 para=$(echo $text $fix | tr -d ' ')
 save_images $para
+mv coco.out $?
+
 #
 #text="--lr 1e-3 --lf yes --lw 300 --rw 300"
 #python vgg16.py $text $fix | tee coco.out

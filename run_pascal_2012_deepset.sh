@@ -7,6 +7,8 @@ export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64:$LD_LIBRARY_PATH
 
 source ./save_images.sh
 
+
+
 fix="--gpu 1 --epochs 40 --data VOC2012 --grid 7"
 
 #usage: vgg16.py
