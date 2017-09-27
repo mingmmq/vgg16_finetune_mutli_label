@@ -230,10 +230,6 @@ def getImageAndAnnotations(path, last_name, grid_rows, set_type="all"):
         elif set_type == "cell_edge":
             if image not in cell_edge:
                 continue
-        else:
-            if count == 16:
-                break
-            count += 1
 
 
         anno_filepath = "/".join([path, "Annotations", image+".xml"])
