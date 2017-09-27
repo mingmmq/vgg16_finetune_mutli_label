@@ -34,7 +34,7 @@ def load_data_by_type(path, type, grid_rows, set_type="all"):
     # In what order will the key be iterated? the order in linux is different from in macos
     files = []
     for key in data:
-        image_path = "/".join([path, "JPEGImages", key+".train"])
+        image_path = "/".join([path, "JPEGImages", key+".jpg"])
         image_names.append(key)
         img = image.load_img(image_path)
         d = image.img_to_array(img, data_format="channels_first").astype(dtype="uint8")
