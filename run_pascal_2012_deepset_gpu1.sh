@@ -7,7 +7,7 @@ export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64:$LD_LIBRARY_PATH
 source ./save_images.sh
 
 
-fix="--gpu 1 --epochs 40 --data VOC2012 --grid 7"
+fix="--gpu 1 --epochs 3 --data VOC2012 --grid 7"
 
 #usage: vgg16.py
 # [-h] [--lr LR] [--grid GRID] [--epochs EPOCHS]
@@ -32,35 +32,35 @@ fix="--gpu 1 --epochs 40 --data VOC2012 --grid 7"
 #mv 2012deepdc.txt $?
 
 
-text="--lr 1e-3 --lf yes --lw 15"
+text="--lr 1e-3 --lf yes"
 python vgg16.py $text $fix | tee 2012deepdc.txt
 para=$(echo $text $fix | tr -d ' ')
 dst=$(save_images $para)
 mv 2012deepdc.txt $dst
-
-text="--lr 1e-3 --lf yes --lw 14"
-python vgg16.py $text $fix | tee 2012deepdc.txt
-para=$(echo $text $fix | tr -d ' ')
-dst=$(save_images $para)
-mv 2012deepdc.txt $dst
-
-text="--lr 1e-3 --lf yes --lw 13"
-python vgg16.py $text $fix | tee 2012deepdc.txt
-para=$(echo $text $fix | tr -d ' ')
-dst=$(save_images $para)
-mv 2012deepdc.txt $dst
-
-text="--lr 1e-3 --lf yes --lw 12"
-python vgg16.py $text $fix | tee 2012deepdc.txt
-para=$(echo $text $fix | tr -d ' ')
-dst=$(save_images $para)
-mv 2012deepdc.txt $dst
-
-text="--lr 1e-3 --lf yes --lw 11"
-python vgg16.py $text $fix | tee 2012deepdc.txt
-para=$(echo $text $fix | tr -d ' ')
-dst=$(save_images $para)
-mv 2012deepdc.txt $dst
+#
+#text="--lr 1e-3 --lf yes --lw 14"
+#python vgg16.py $text $fix | tee 2012deepdc.txt
+#para=$(echo $text $fix | tr -d ' ')
+#dst=$(save_images $para)
+#mv 2012deepdc.txt $dst
+#
+#text="--lr 1e-3 --lf yes --lw 13"
+#python vgg16.py $text $fix | tee 2012deepdc.txt
+#para=$(echo $text $fix | tr -d ' ')
+#dst=$(save_images $para)
+#mv 2012deepdc.txt $dst
+#
+#text="--lr 1e-3 --lf yes --lw 12"
+#python vgg16.py $text $fix | tee 2012deepdc.txt
+#para=$(echo $text $fix | tr -d ' ')
+#dst=$(save_images $para)
+#mv 2012deepdc.txt $dst
+#
+#text="--lr 1e-3 --lf yes --lw 11"
+#python vgg16.py $text $fix | tee 2012deepdc.txt
+#para=$(echo $text $fix | tr -d ' ')
+#dst=$(save_images $para)
+#mv 2012deepdc.txt $dst
 
 #
 #text="--lr 1e-3 --lf yes --rw 300"
