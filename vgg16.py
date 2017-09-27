@@ -291,7 +291,7 @@ if __name__ == '__main__':
         base_labels = 20
         if pa.grids_per_row != 1:
             from load_pascal_deepset import  load_pascal_data
-            X_train, Y_train, X_valid, Y_valid = load_pascal_data(pa.dataset, pa.grids_per_row)
+            X_train, Y_train, X_valid, Y_valid = load_pascal_data(pa.dataset, pa.grids_per_row, pa.set_type)
         else:
             from load_pascal import  load_pascal_data
             X_train, Y_train, X_valid, Y_valid = load_pascal_data(pa.dataset)

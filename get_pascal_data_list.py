@@ -2,6 +2,11 @@ import os
 from bs4 import BeautifulSoup
 import math
 
+img_in_one_cell = ['2008_000151',  '2008_000255',  '2008_000915', '2008_001161']
+big = ['2008_001852', '2008_001881','2008_001882','2008_001894']
+cell_centre =  ['2008_001783', '2008_001921', '2008_001926', '2008_002056']
+cell_edge = ['2008_001787','2008_001789','2008_001852','2008_001888','2008_001903']
+
 def getImageAndLabels(path, last_name):
     label_path = "/".join([path, "ImageSets/Main/"])
     files = [file for file in os.listdir(label_path) if file.__contains__(last_name)]
@@ -15,7 +20,7 @@ def getImageAndLabels(path, last_name):
 
         with open(os.path.join(label_path,file)) as f:
             # lines = f.read()
-            # lines = [os.path.join('VOC2012', 'JPEGImages', line.split()[0] + ".jpg")  for line in f.read().splitlines() if  line.__contains__(" 1")]
+            # lines = [os.path.join('VOC2012', 'JPEGImages', line.split()[0] + ".train")  for line in f.read().splitlines() if  line.__contains__(" 1")]
             lines = f.read().splitlines()
             count = 0
             for img_path in lines:
@@ -26,7 +31,7 @@ def getImageAndLabels(path, last_name):
                 if " -1" in img_path:
                     continue
 
-                img_path = os.path.join(path, 'JPEGImages', img_path.split()[0] + ".jpg")
+                img_path = os.path.join(path, 'JPEGImages', img_path.split()[0] + ".train")
 
                 if dictionary.__contains__(img_path):
                     dictionary[img_path].append(i)
@@ -109,7 +114,7 @@ def draw_image(path, image_name, grid_rows):
     width = float(size.findChild('width').contents[0])
     height = float(size.findChild('height').contents[0])
 
-    image_path = "/".join([path, "JPEGImages", image_name+".jpg"])
+    image_path = "/".join([path, "JPEGImages", image_name+".train"])
     from PIL import Image, ImageDraw
     im = Image.open(image_path)
     draw = ImageDraw.Draw(im)
@@ -194,7 +199,7 @@ def pass_grid_check(path, img, dim):
     # print "no objects in the same grid"
     return True
 
-def getImageAndAnnotations(path, last_name, grid_rows):
+def getImageAndAnnotations(path, last_name, grid_rows, set_type="all"):
 
     main_path = "/".join([path, "ImageSets/Main"])
     image_list = get_image_list(main_path, last_name)
@@ -205,11 +210,31 @@ def getImageAndAnnotations(path, last_name, grid_rows):
     count = 0
     for image in image_list:
 
+
         if not pass_grid_check(path, image, grid_rows):
-            # draw_image(path, image, grid_rows)
             continue
 
-        # print(image)
+        # draw_image(path, image, grid_rows)
+
+        if set_type == "in_one_cell":
+            if file_obj_pos.__len__() == img_in_one_cell.__len__():
+                break;
+            if image not in img_in_one_cell:
+                continue
+        elif set_type == "big_than_cell":
+            if image not in big:
+                continue
+        elif set_type == "cell_centre":
+            if image not in cell_centre:
+                continue
+        elif set_type == "cell_edge":
+            if image not in cell_edge:
+                continue
+        else:
+            if count == 16:
+                break
+            count += 1
+
 
         anno_filepath = "/".join([path, "Annotations", image+".xml"])
         anno = load_annotation(anno_filepath)

@@ -4,20 +4,20 @@ import get_pascal_data_list as pascal_dict
 import numpy as np
 import cv2
 
-def load_data(version="", grid_rows=7):
+def load_data(version="", grid_rows=7, set_type="all"):
     if version == "":
         print("data_path required: VOC2012 or VOC2007")
         exit()
     path = "/".join(["../pascal/VOCdevkit", version])
-    (x_train, y_train) = load_data_by_type(path, "train", grid_rows)
-    (x_test, y_test)  = load_data_by_type(path, "val", grid_rows)
+    (x_train, y_train) = load_data_by_type(path, "train", grid_rows, set_type)
+    (x_test, y_test)  = load_data_by_type(path, "val", grid_rows, set_type)
 
     return (x_train, y_train), (x_test, y_test)
 
-def load_data_by_type(path, type, grid_rows):
+def load_data_by_type(path, type, grid_rows, set_type="all"):
     #this is used the set the grid line numbers, and the rejected images are listed by another program
     if type == "train":
-        data = pascal_dict.getImageAndAnnotations(path, '_train.txt', grid_rows)
+        data = pascal_dict.getImageAndAnnotations(path, '_train.txt', grid_rows, set_type)
     else:
         data = pascal_dict.getImageAndAnnotations(path, '_val.txt', grid_rows)
 
@@ -34,7 +34,7 @@ def load_data_by_type(path, type, grid_rows):
     # In what order will the key be iterated? the order in linux is different from in macos
     files = []
     for key in data:
-        image_path = "/".join([path, "JPEGImages", key+".jpg"])
+        image_path = "/".join([path, "JPEGImages", key+".train"])
         image_names.append(key)
         img = image.load_img(image_path)
         d = image.img_to_array(img, data_format="channels_first").astype(dtype="uint8")

@@ -7,6 +7,7 @@ global use_custom_loss_function
 global use_custom_accuracy_function
 global dataset
 global gpu
+global set_type
 
 def print_args():
     print("learning rate: ", learning_rate)
@@ -33,6 +34,7 @@ def parse_arguments():
     parser.add_argument('--af', help="custom accuracy")
     parser.add_argument('--data', help="choose the data")
     parser.add_argument('--gpu', help="choose the gpu")
+    parser.add_argument('--st', help="choose the set type")
 
 
     args = parser.parse_args()
@@ -46,6 +48,7 @@ def parse_arguments():
     global use_custom_accuracy_function
     global dataset
     global gpu
+    global set_type
 
     learning_rate = float(args.lr) if args.lr else 0.01
     grids_per_row = int(args.grid) if args.grid else 1
@@ -56,6 +59,7 @@ def parse_arguments():
     use_custom_accuracy_function = True if args.af else False
     dataset = args.data if args.data else "VOC2007"
     gpu = int(args.gpu) if args.gpu else 0
+    set_type = args.st if args.st else "all"
 
 
     #print the args here
