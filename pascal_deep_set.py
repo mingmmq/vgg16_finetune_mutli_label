@@ -11,7 +11,6 @@ def load_data(version="", grid_rows=7, set_type="all"):
     path = "/".join(["../pascal/VOCdevkit", version])
     (x_train, y_train) = load_data_by_type(path, "train", grid_rows, set_type)
     (x_test, y_test)  = load_data_by_type(path, "val", grid_rows, set_type)
-
     return (x_train, y_train), (x_test, y_test)
 
 def load_data_by_type(path, type, grid_rows, set_type="all"):
