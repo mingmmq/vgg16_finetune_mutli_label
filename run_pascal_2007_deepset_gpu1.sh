@@ -7,7 +7,7 @@ export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64:$LD_LIBRARY_PATH
 source ./save_images.sh
 
 
-fix="--gpu 0 --epochs 200 --data VOC2007 --grid 7"
+fix="--gpu 1 --epochs 200 --data VOC2007 --grid 7"
 
 #usage: vgg16.py
 # [-h] [--lr LR] [--grid GRID] [--epochs EPOCHS]
@@ -24,11 +24,11 @@ fix="--gpu 0 --epochs 200 --data VOC2007 --grid 7"
 #para=$(echo $text $fix | tr -d ' ')
 #save_images $para
 
-text="--lr 1e-3 --lf yes --lw 12"
+text="--lr 1e-4 --lf yes --lw 13"
 python vgg16.py $text $fix | tee 2007deep.txt
 para=$(echo $text $fix | tr -d ' ')
 dst=$(save_images $para)
-mv 2012deep.txt $dst
+mv 2007deep.txt $dst
 
 #text="--lr 1e-3 --lf yes --rw 300"
 #python vgg16.py $text $fix | tee 2007deep.out
