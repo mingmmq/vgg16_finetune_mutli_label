@@ -114,7 +114,7 @@ def draw_image(path, image_name, grid_rows):
     width = float(size.findChild('width').contents[0])
     height = float(size.findChild('height').contents[0])
 
-    image_path = "/".join([path, "JPEGImages", image_name+".train"])
+    image_path = "/".join([path, "JPEGImages", image_name+".jpg"])
     from PIL import Image, ImageDraw
     im = Image.open(image_path)
     draw = ImageDraw.Draw(im)
