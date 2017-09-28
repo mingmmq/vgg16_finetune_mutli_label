@@ -1,3 +1,4 @@
+global random_sample
 global learning_rate
 global grids_per_row
 global nb_epoch
@@ -35,6 +36,7 @@ def parse_arguments():
     parser.add_argument('--data', help="choose the data")
     parser.add_argument('--gpu', help="choose the gpu")
     parser.add_argument('--st', help="choose the set type")
+    parser.add_argument('--rs', help="random sampe times of max")
 
 
     args = parser.parse_args()
@@ -49,6 +51,7 @@ def parse_arguments():
     global dataset
     global gpu
     global set_type
+    global random_sample
 
     learning_rate = float(args.lr) if args.lr else 0.01
     grids_per_row = int(args.grid) if args.grid else 1
@@ -60,6 +63,8 @@ def parse_arguments():
     dataset = args.data if args.data else "VOC2007"
     gpu = int(args.gpu) if args.gpu else 0
     set_type = args.st if args.st else "all"
+    random_sample = int(args.rs) if args.rs else None
+
 
 
     #print the args here

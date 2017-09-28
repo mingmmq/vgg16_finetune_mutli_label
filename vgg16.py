@@ -18,15 +18,10 @@ import matplotlib.pyplot as plt
 import keras
 from keras.models import Sequential
 from keras.optimizers import SGD
-from keras.layers import Input, Dense, Convolution2D, MaxPooling2D, AveragePooling2D, ZeroPadding2D, Dropout, Flatten, \
-    merge, Reshape, Activation, Conv2D
-from keras import objectives
+from keras.layers import Dense, MaxPooling2D, ZeroPadding2D, Dropout, Flatten, \
+    Conv2D
 
 from sklearn.metrics import log_loss
-
-from load_cifar10 import load_cifar10_data
-from load_pascal_deepset import  load_pascal_data
-from load_coco import load_coco_data
 
 import numpy as np
 from keras import backend as K
@@ -198,20 +193,22 @@ def _loss_tensor_bak(y_true, y_pred):
 def _loss_tensor(y_true, y_pred):
     y_pred = K.clip(y_pred, K.epsilon(), 1.0-K.epsilon())
 
-    #find the 1 labels sum in each row
-    sum_of_each = K.round(K.sum(y_true, axis=1))
-    #get 3 times of the to keep the data
-    keep_of_each = sum_of_each * 3
-    #get the max of these number
-    max = K.max(keep_of_each)
-    #get the shape of y_true
-    shape = K.shape(y_true)
+    if pa.random_sample:
+        #find the 1 labels sum in each row
+        sum_of_each = K.round(K.sum(y_true, axis=1))
+        #get 3 times of the to keep the data
+        keep_of_each = sum_of_each * pa.random_sample
+        #get the max of these number
+        max = K.max(keep_of_each)
+        #get the shape of y_true
+        shape = K.shape(y_true)
+        #generate the random tensor based on the shape, and make tie binomial
+        random_tensor = K.random_binomial(shape=shape, p= (shape[1]-max)/(shape[1]))
+        n_true = K.clip(y_true + random_tensor, K.epsilon(), 1.0-K.epsilon())
 
-    #generate the random tensor based on the shape, and make tie binomial
-    random_tensor = K.random_binomial(shape=shape, p= (shape[1]-max)/(shape[1]))
-    n_true = K.clip(y_true + random_tensor, K.epsilon(), 1.0-K.epsilon())
-
-    out = -(y_true * K.log(y_pred) * pa.left_weight + (1.0 - y_true) * K.log(1.0 - y_pred) * pa.right_weight)
+        out = -(y_true * K.log(y_pred) * pa.left_weight + (1.0 - n_true) * K.log(1.0 - y_pred) * pa.right_weight)
+    else:
+        out = -(y_true * K.log(y_pred) * pa.left_weight + (1.0 - y_true) * K.log(1.0 - y_pred) * pa.right_weight)
     return K.mean(out, axis=-1)
 
 
@@ -248,7 +245,7 @@ class My_Callback(keras.callbacks.Callback):
         # find the 1 labels sum in each row
         sum_of_each = K.round(K.sum(y_true, axis=1))
         # get 3 times of the to keep the data
-        keep_of_each = sum_of_each * 3;
+        keep_of_each = sum_of_each * pa.random_sample;
         # get the max of these number
         max = K.max(keep_of_each)
         # get the shape of y_true
@@ -261,7 +258,7 @@ class My_Callback(keras.callbacks.Callback):
 
 
         #print related infromation
-        print("\nepoch end: positive rate: %f, precision: %f, recall: %f, accuracy: %f, loss original: %f, loss_now: %f, n_true_sum: %f, y_pred_sum: %f \n"
+        print("\nepoch end: pr: %f, prc: %f, rc: %f, ac: %f, lo: %f, ln: %f, sum_n: %f, sum_y: %f \n"
               %(K.eval(pred_positive_rate), K.eval(precision), K.eval(recall), K.eval(accuracy), K.eval(K.mean(loss_original)), K.eval(K.mean(loss_now)) ,K.eval(sum_of_n_true), K.eval(sum_of_y_pred)))
         return
 
