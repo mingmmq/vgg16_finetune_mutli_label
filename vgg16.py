@@ -214,8 +214,9 @@ def _loss_tensor(y_true, y_pred):
 
 
 class My_Callback(keras.callbacks.Callback):
-    def __init__(self, validation_data):
+    def __init__(self, validation_data, pa):
         self.validation_data = validation_data
+        self.pa = pa
 
     def on_epoch_end(self, batch, logs=None):
         # pdb.set_trace()
@@ -246,7 +247,7 @@ class My_Callback(keras.callbacks.Callback):
         # find the 1 labels sum in each row
         sum_of_each = K.round(K.sum(y_true, axis=1))
         # get 3 times of the to keep the data
-        keep_of_each = sum_of_each * pa.random_sample
+        keep_of_each = sum_of_each * self.pa.random_sample
         # get the max of these number
         max = K.max(keep_of_each)
         # get the shape of y_true
@@ -300,7 +301,7 @@ if __name__ == '__main__':
     # Load our model
     model = vgg16_model(img_rows, img_cols, channel, num_labels)
 
-    my_callback = My_Callback(validation_data=(X_valid, Y_valid))
+    my_callback = My_Callback((X_valid, Y_valid), pa)
 
     # Start Fine-tuning
     history = model.fit(X_train, Y_train,
