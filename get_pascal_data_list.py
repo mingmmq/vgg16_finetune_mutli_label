@@ -31,7 +31,7 @@ def getImageAndLabels(path, last_name):
                 if " -1" in img_path:
                     continue
 
-                img_path = os.path.join(path, 'JPEGImages', img_path.split()[0] + ".train")
+                img_path = os.path.join(path, 'JPEGImages', img_path.split()[0] + ".jpg")
 
                 if dictionary.__contains__(img_path):
                     dictionary[img_path].append(i)
