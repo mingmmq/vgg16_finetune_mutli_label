@@ -61,7 +61,7 @@ def load_annotation(anno_filename):
     with open(anno_filename) as f:
         xml = f.readlines()
     xml = ''.join([line.strip('\t') for line in xml])
-    return BeautifulSoup(xml, "html5lib")
+    return BeautifulSoup(xml, "lxml")
 
 
 def get_image_list(main_path, last_name):
