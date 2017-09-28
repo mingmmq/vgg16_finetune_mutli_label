@@ -247,7 +247,11 @@ class My_Callback(keras.callbacks.Callback):
         # find the 1 labels sum in each row
         sum_of_each = K.round(K.sum(y_true, axis=1))
         # get 3 times of the to keep the data
-        keep_of_each = sum_of_each * self.pa.random_sample
+        print(self.pa.random_sample)
+        if self.pa.random_sample:
+            keep_of_each = sum_of_each * self.pa.random_sample
+        else:
+            keep_of_each = sum_of_each * 10
         # get the max of these number
         max = K.max(keep_of_each)
         # get the shape of y_true
