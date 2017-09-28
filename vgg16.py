@@ -197,7 +197,8 @@ def _loss_tensor(y_true, y_pred):
         #find the 1 labels sum in each row
         sum_of_each = K.round(K.sum(y_true, axis=1))
         #get 3 times of the to keep the data
-        keep_of_each = sum_of_each * 10
+        keep_of_each = sum_of_each * pa.random_sample
+
         #get the max of these number
         max = K.max(keep_of_each)
         #get the shape of y_true
@@ -245,7 +246,7 @@ class My_Callback(keras.callbacks.Callback):
         # find the 1 labels sum in each row
         sum_of_each = K.round(K.sum(y_true, axis=1))
         # get 3 times of the to keep the data
-        keep_of_each = sum_of_each * pa.random_sample;
+        keep_of_each = sum_of_each * pa.random_sample
         # get the max of these number
         max = K.max(keep_of_each)
         # get the shape of y_true
