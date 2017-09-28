@@ -199,7 +199,7 @@ def pass_grid_check(path, img, dim):
     # print "no objects in the same grid"
     return True
 
-def getImageAndAnnotations(path, last_name, grid_rows, set_type="all"):
+def getImageAndAnnotations(path, last_name, grid_rows, set_type="all", sample_number = 200000):
 
     main_path = "/".join([path, "ImageSets/Main"])
     image_list = get_image_list(main_path, last_name)
@@ -240,9 +240,9 @@ def getImageAndAnnotations(path, last_name, grid_rows, set_type="all"):
         objects_count += obj_pos.__len__()
 
         # this part is for showing only the 10 items
-        # if count == 16:
-        #     break
-        # count += 1
+        if count+1 == sample_number:
+            break
+        count += 1
 
 
     print("total objects: ", objects_count)

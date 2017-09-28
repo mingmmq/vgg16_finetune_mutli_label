@@ -9,6 +9,7 @@ global use_custom_accuracy_function
 global dataset
 global gpu
 global set_type
+global sample_number
 
 def print_args():
     print("learning rate: ", learning_rate)
@@ -20,6 +21,10 @@ def print_args():
     print("use custom accuracy function:", use_custom_accuracy_function)
     print("pascal voc version", dataset)
     print("the gpu", gpu)
+    print("set type", set_type)
+    print("random sample", random_sample)
+    print("sample nubmer", sample_number)
+
 
 
 
@@ -37,6 +42,7 @@ def parse_arguments():
     parser.add_argument('--gpu', help="choose the gpu")
     parser.add_argument('--st', help="choose the set type")
     parser.add_argument('--rs', help="random sampe times of max")
+    parser.add_argument('--sn', help="sample number")
 
 
     args = parser.parse_args()
@@ -52,6 +58,7 @@ def parse_arguments():
     global gpu
     global set_type
     global random_sample
+    global sample_number
 
     learning_rate = float(args.lr) if args.lr else 0.01
     grids_per_row = int(args.grid) if args.grid else 1
@@ -64,8 +71,7 @@ def parse_arguments():
     gpu = int(args.gpu) if args.gpu else 0
     set_type = args.st if args.st else "all"
     random_sample = int(args.rs) if args.rs else None
-
-
+    sample_number = int(args.sn) if args.sn else None
 
     #print the args here
     print_args()

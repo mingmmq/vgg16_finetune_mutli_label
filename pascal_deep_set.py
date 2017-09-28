@@ -4,21 +4,21 @@ import get_pascal_data_list as pascal_dict
 import numpy as np
 import cv2
 
-def load_data(version="", grid_rows=7, set_type="all"):
+def load_data(version="", grid_rows=7, set_type="all", sample_number = 200000):
     if version == "":
         print("data_path required: VOC2012 or VOC2007")
         exit()
     path = "/".join(["../pascal/VOCdevkit", version])
-    (x_train, y_train) = load_data_by_type(path, "train", grid_rows, set_type)
-    (x_test, y_test)  = load_data_by_type(path, "val", grid_rows, set_type)
+    (x_train, y_train) = load_data_by_type(path, "train", grid_rows, set_type, sample_number)
+    (x_test, y_test)  = load_data_by_type(path, "val", grid_rows, set_type, sample_number)
     return (x_train, y_train), (x_test, y_test)
 
-def load_data_by_type(path, type, grid_rows, set_type="all"):
+def load_data_by_type(path, type, grid_rows, set_type="all", sample_number = 200000):
     #this is used the set the grid line numbers, and the rejected images are listed by another program
     if type == "train":
-        data = pascal_dict.getImageAndAnnotations(path, '_train.txt', grid_rows, set_type)
+        data = pascal_dict.getImageAndAnnotations(path, '_train.txt', grid_rows, set_type, sample_number)
     else:
-        data = pascal_dict.getImageAndAnnotations(path, '_val.txt', grid_rows)
+        data = pascal_dict.getImageAndAnnotations(path, '_val.txt', grid_rows, set_type, sample_number)
 
     num_train_samples = 0
     for key in data:

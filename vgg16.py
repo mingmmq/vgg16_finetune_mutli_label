@@ -286,12 +286,13 @@ if __name__ == '__main__':
             X_train, Y_train, X_valid, Y_valid = load_coco_data(image_path)
     else:
         base_labels = 20
+        sample_number = pa.sample_number if pa.sample_number else 200000
         if pa.grids_per_row != 1:
             from load_pascal_deepset import  load_pascal_data
-            X_train, Y_train, X_valid, Y_valid = load_pascal_data(pa.dataset, pa.grids_per_row, pa.set_type)
+            X_train, Y_train, X_valid, Y_valid = load_pascal_data(pa.dataset, pa.grids_per_row, pa.set_type,  sample_number)
         else:
             from load_pascal import  load_pascal_data
-            X_train, Y_train, X_valid, Y_valid = load_pascal_data(pa.dataset)
+            X_train, Y_train, X_valid, Y_valid = load_pascal_data(pa.dataset, sample_number)
 
     num_labels = base_labels * pa.grids_per_row * pa.grids_per_row
 
