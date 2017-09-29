@@ -9,7 +9,7 @@ nb_train_samples = 3000 # 3000 training samples
 nb_valid_samples = 100 # 100 validation samples
 num_classes = 20
 
-def load_pascal_data(version="VOC2007"):
+def load_pascal_data(version="VOC2007", sample_number=200000):
     # Load cifar10 training and validation sets
     (X_train, Y_train), (X_valid, Y_valid) = pascal.load_data(version)
 

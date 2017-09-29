@@ -298,7 +298,7 @@ if __name__ == '__main__':
             X_train, Y_train, X_valid, Y_valid = load_pascal_data(pa.dataset, pa.grids_per_row, pa.set_type,  sample_number)
         else:
             from load_pascal import  load_pascal_data
-            X_train, Y_train, X_valid, Y_valid = load_pascal_data(pa.dataset, sample_number)
+            X_train, Y_train, X_valid, Y_valid = load_pascal_data(pa.dataset, pa.sample_number)
 
     num_labels = base_labels * pa.grids_per_row * pa.grids_per_row
 

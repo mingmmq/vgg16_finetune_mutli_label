@@ -63,8 +63,8 @@ def parse_arguments():
     learning_rate = float(args.lr) if args.lr else 0.01
     grids_per_row = int(args.grid) if args.grid else 1
     nb_epoch = int(args.epochs) if args.epochs else 60
-    left_weight = int(args.lw) if args.lw else 1
-    right_weight = int(args.rw) if args.rw else 1
+    left_weight = float(args.lw) if args.lw else 1
+    right_weight = float(args.rw) if args.rw else 1
     use_custom_loss_function = True if args.lf else False
     use_custom_accuracy_function = True if args.af else False
     dataset = args.data if args.data else "VOC2007"
