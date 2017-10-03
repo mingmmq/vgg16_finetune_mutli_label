@@ -7,6 +7,11 @@ big = ['2008_001852', '2008_001881','2008_001882','2008_001894']
 cell_centre =  ['2008_001783', '2008_001921', '2008_001926', '2008_002056']
 cell_edge = ['2008_001787','2008_001789','2008_001852','2008_001888','2008_001903']
 
+pascal_class_dic = {'aeroplane': 0, 'bicycle': 1, 'bird': 2, 'boat': 3, 'bottle': 4,
+                    'bus': 5, 'car': 6, 'cat': 7, 'chair': 8, 'cow': 9,
+                    'diningtable': 10, 'dog': 11, 'horse': 12, 'motorbike': 13, 'person': 14,
+                    'pottedplant': 15, 'sheep': 16, 'sofa': 17, 'train': 18, 'tvmonitor': 19}
+
 def getImageAndLabels(path, last_name):
     label_path = "/".join([path, "ImageSets/Main/"])
     files = [file for file in os.listdir(label_path) if file.__contains__(last_name)]
@@ -248,8 +253,34 @@ def getImageAndAnnotations(path, last_name, grid_rows, set_type="all", sample_nu
     print("total objects: ", objects_count)
     return file_obj_pos
 
+def getLabel(anno_file):
+    anno = load_annotation(anno_file)
+    objs = anno.findAll('object')
+    label = []
+    for obj in objs:
+        label_item = pascal_class_dic[obj.findChildren('name')[0].contents[0]]
+        if not label.__contains__(label_item):
+            label.append(label_item)
+
+    return label
+
+
+def getImgAndLabels(img_name_file, anno_path):
+    #iterate through image file
+    with open(img_name_file) as f:
+        imgs = f.read().splitlines()
+    labels = []
+    for img_name in imgs:
+        anno_file = "/".join([anno_path,img_name+".xml"])
+        labels.append(getLabel(anno_file))
+
+    img_names = [img + ".jpg" for img in imgs]
+
+    return img_names, labels
+
 
 if __name__ == "__main__":
-    print(os.curdir)
+    getImgAndLabels("/Users/qianminming/Github/data/pascal/VOCdevkit/VOC2007/ImageSets/Main/trainval.txt",
+                      "/Users/qianminming/Github/data/pascal/VOCdevkit/VOC2007/Annotations")
     # print(os.listdir("VOC2012/ImageSets/Main/"))
 

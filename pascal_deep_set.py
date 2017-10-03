@@ -8,7 +8,7 @@ def load_data(version="", grid_rows=7, set_type="all", sample_number = 200000):
     if version == "":
         print("data_path required: VOC2012 or VOC2007")
         exit()
-    path = "/".join(["../pascal/VOCdevkit", version])
+    path = "/".join(["../data/pascal/VOCdevkit", version])
     (x_train, y_train) = load_data_by_type(path, "train", grid_rows, set_type, sample_number)
     (x_test, y_test)  = load_data_by_type(path, "val", grid_rows, set_type, sample_number)
     return (x_train, y_train), (x_test, y_test)
